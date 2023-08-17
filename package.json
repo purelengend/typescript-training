@@ -6,17 +6,41 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "format": "prettier --write \"**/*.+(ts|tsx|json|css)\"",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "eslint": "^8.0.1",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard-with-typescript": "^37.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
     "eslint-plugin-promise": "^6.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.0",
     "prettier": "3.0.2",
     "typescript": "*",
     "vite": "^4.4.5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "yarn lint:fix",
+      "yarn format"
+    ]
+  },
+  "commitlint": {
+    "rules": {
+      "references-empty": [
+        2,
+        "never"
+      ]
+    }
   }
 }
