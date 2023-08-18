@@ -1,0 +1,21 @@
+:root {
+  --bg-primary-color: #252836;
+  --bg-secondary-color: #1f1d2b;
+
+  /*width*/
+  --layout-default-max-width: 1440px;
+}
+
+body {
+  background-color: var(--bg-primary-color);
+}
+
+.container {
+  max-width: var(--layout-default-max-width);
+  margin: 0 auto;
+  background-color: var(--bg-secondary-color);
+}
+
+body {
+  font-family: Barlow, sans-serif;
+}
