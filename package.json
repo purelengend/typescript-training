@@ -36,11 +36,8 @@
     ]
   },
   "commitlint": {
-    "rules": {
-      "references-empty": [
-        2,
-        "never"
-      ]
-    }
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }

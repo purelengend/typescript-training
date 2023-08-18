@@ -19,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "tsconfig.json", "commitlint.config.cjs"]
+  "include": ["src", "tsconfig.json"]
 }
