@@ -1,5 +1,5 @@
 @font-face {
   font-family: Barlow;
-  src: url('../../assets/fonts/Barlow-Regular.ttf') format('truetype');
+  src: url('../../assets/fonts/Barlow-Regular.woff2') format('woff2');
   font-display: swap;
 }
