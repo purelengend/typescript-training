@@ -1,4 +1,4 @@
-.dialog-overlay {
+.modal-overlay {
   position: fixed;
   top: 0;
   right: 0;
@@ -6,7 +6,6 @@
   left: 0;
   z-index: 10;
   background-color: var(--modal-overlay);
-  visibility: hidden;
 }
 
 .modal-btn {

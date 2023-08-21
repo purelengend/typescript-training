@@ -1,4 +1,4 @@
-.delete-dialog-body {
+.delete-modal-body {
   max-width: 480px;
   padding: 32px;
   border-radius: var(--border-secondary);
@@ -7,7 +7,7 @@
   justify-content: space-between;
 }
 
-.delete-dialog-content {
+.delete-modal-content {
   font-size: var(--font-size-xl);
   color: var(--text-primary);
   font-weight: var(--font-weight-bold);
@@ -15,6 +15,6 @@
   text-align: center;
 }
 
-.delete-dialog-btn-wrapper {
+.delete-modal-btn-wrapper {
   justify-content: space-between;
 }
