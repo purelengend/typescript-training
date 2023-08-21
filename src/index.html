@@ -286,11 +286,11 @@
 
     <div
       id="add-modal"
-      style="visibility: none;"
+      style="visibility: hidden;"
       class="d-flex-center modal-overlay"
     >
       <div class="d-flex-col mutation-modal-body">
-        <h2 class="mutation-modal-content">Add</h2>
+        <h2 class="mutation-modal-content">Create a new food</h2>
         <form action="return false;" class="d-flex-col mutation-form">
           <div class="d-flex-col mutation-form-field">
             <label for="name" class="mutation-label">Name</label>
@@ -331,6 +331,52 @@
       </div>
     </div>
 
+    <div
+    id="edit-modal"
+    style="visibility: hidden;"
+    class="d-flex-center modal-overlay"
+  >
+    <div class="d-flex-col mutation-modal-body">
+      <h2 class="mutation-modal-content">Edit</h2>
+      <form action="return false;" class="d-flex-col mutation-form">
+        <div class="d-flex-col mutation-form-field">
+          <label for="name" class="mutation-label">Name</label>
+          <input type="text" class="mutation-input" id="name" required />
+        </div>
+        <div class="d-flex-col mutation-form-field">
+          <label for="price" class="mutation-label">Price</label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            class="mutation-input"
+            id="price"
+            required
+          />
+        </div>
+        <div class="d-flex-col mutation-form-field">
+          <label for="image" class="mutation-label">Image URL</label>
+          <input type="text" class="mutation-input" id="image" required />
+        </div>
+        <div class="d-flex-col mutation-form-field">
+          <label for="quantity" class="mutation-label">Quantity</label>
+          <input
+            type="number"
+            step="1"
+            min="1"
+            value="1"
+            class="mutation-input half"
+            id="quantity"
+            required
+          />
+        </div>
+        <div class="d-flex mutation-modal-btn-wrapper">
+          <button class="modal-btn cancel">Cancel</button>
+          <button type="submit" class="modal-btn confirm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
     <script type="module" defer src="/scripts/main.ts"></script>
   </body>
 </html>
