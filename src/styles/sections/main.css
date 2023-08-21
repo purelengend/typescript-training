@@ -121,4 +121,5 @@
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-lg);
   color: var(--primary-color);
+  margin-bottom: 68px;
 }
