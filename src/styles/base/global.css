@@ -8,6 +8,7 @@
   --bg-secondary: #1f1d2b;
   --base-form-bg: #2d303e;
   --base-dark-line: #393c49;
+  --modal-overlay: rgba(0, 0, 0, 0.3);
   /*width*/
   --layout-default-max-width: 1440px;
 
@@ -21,11 +22,13 @@
 
   /*border-radius*/
   --border-primary: 8px;
+  --border-secondary: 16px;
 
   /*font-size*/
   --font-size-sm: 14px;
   --font-size-md: 16px;
   --font-size-lg: 20px;
+  --font-size-xl: 28px;
 
   /*font-weight*/
   --font-weight-normal: 400;

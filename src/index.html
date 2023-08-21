@@ -267,6 +267,20 @@
       </main>
       <footer class="footer-container"></footer>
     </div>
+    <div id="delete-modal" style="visibility: none;" class="d-flex-center dialog-overlay">
+      <div class="d-flex-col delete-dialog-body">
+        <input id="myHiddenField" type="number" value="0" name="id" hidden />
+        <h2 class="delete-dialog-content">
+          Are you sure you want to delete this food?
+        </h2>
+        <div class="d-flex delete-dialog-btn-wrapper">
+          <button class="modal-btn cancel">Cancel</button>
+          <button class="modal-btn confirm">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    
     <script type="module" defer src="/scripts/main.ts"></script>
   </body>
 </html>
