@@ -1,0 +1,51 @@
+.mutation-modal-body {
+  max-width: 484px;
+  padding: 40px 48px 32px;
+  border-radius: var(--border-secondary);
+  background-color: var(--bg-secondary);
+  gap: 48px;
+}
+
+.mutation-modal-content {
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+}
+
+.mutation-form {
+  border-top: 1px solid var(--base-dark-line);
+  padding-top: 28px;
+  gap: 16px;
+}
+
+.mutation-form-field {
+  gap: 8px;
+}
+
+.mutation-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+  color: var(--text-primary);
+}
+
+.mutation-input {
+  min-width: 445px;
+  padding: var(--padding-xs);
+  border-radius: var(--border-primary);
+  border: 1px solid var(--base-dark-line);
+  background-color: var(--base-form-bg);
+  outline: none;
+  color: var(--text-primary);
+}
+
+.half {
+  min-width: auto;
+  width: 50%;
+}
+
+.mutation-modal-btn-wrapper {
+  justify-content: space-between;
+  margin-top: 56px;
+}

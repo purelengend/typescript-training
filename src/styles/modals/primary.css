@@ -1,0 +1,37 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  background-color: var(--modal-overlay);
+}
+
+.modal-btn {
+  width: 176px;
+  text-align: center;
+  border-radius: var(--border-primary);
+  padding: var(--padding-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+  border: none;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.confirm {
+  background-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.cancel {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.cancel:hover,
+.confirm:hover {
+  box-shadow: 0px 8px 24px 0px rgba(234, 124, 105, 0.4);
+}

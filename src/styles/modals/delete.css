@@ -1,0 +1,20 @@
+.delete-modal-body {
+  max-width: 480px;
+  padding: 32px;
+  border-radius: var(--border-secondary);
+  background-color: var(--bg-secondary);
+  gap: 48px;
+  justify-content: space-between;
+}
+
+.delete-modal-content {
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+  text-align: center;
+}
+
+.delete-modal-btn-wrapper {
+  justify-content: space-between;
+}
