@@ -1,5 +1,5 @@
 .header-container {
-  padding: var(--padding-md) var(--padding-2xl) var(--padding-sm);
+  padding: var(--padding-md) var(--padding-xl) var(--padding-sm);
   color: var(--text-primary);
 }
 

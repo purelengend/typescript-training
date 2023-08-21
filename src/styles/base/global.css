@@ -1,6 +1,7 @@
 :root {
   /*color*/
   --primary-color: #ea7c69;
+  --alternative-color: #634c51;
   --text-primary: #fff;
   --text-light: #abbbc2;
   --bg-primary: #252836;
@@ -16,7 +17,7 @@
   --padding-nm: 27px;
   --padding-md: 55px;
   --padding-lg: 65px;
-  --padding-2xl: 78px;
+  --padding-xl: 78px;
 
   /*border-radius*/
   --border-primary: 8px;

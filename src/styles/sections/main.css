@@ -1,0 +1,124 @@
+.main-container {
+  border-top: 1px solid var(--base-dark-line);
+  gap: 48px;
+}
+
+.main-content-wrapper {
+  padding: var(--padding-nm) var(--padding-lg) 0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.addition-card {
+  width: 246px;
+  height: 299px;
+  border-radius: var(--border-primary);
+  border: 1px dashed var(--primary-color);
+}
+
+.addition-wrapper {
+  gap: 22px;
+  align-items: center;
+}
+
+.addition-content {
+  color: var(--primary-color);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+}
+
+.product-card {
+  width: 246px;
+  height: 299px;
+  border-radius: var(--border-primary);
+  border: 1px solid var(--base-dark-line);
+  position: relative;
+  gap: 16px;
+}
+
+.product-wrapper {
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.primary-product {
+  width: 127px;
+  height: 127px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.product-content-wrapper {
+  width: 144px;
+  gap: 8px;
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-lg);
+}
+
+.secondary-icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-card:hover .secondary-icon {
+  opacity: 1;
+}
+
+.product-name {
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
+
+.product-detail {
+  gap: 8px;
+}
+
+.separate {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--text-light);
+}
+
+.product-mutation {
+  width: 246px;
+  height: 52px;
+  background-color: rgba(234, 124, 105, 0.24);
+  border: 1px solid var(--alternative-color);
+  border-top: none;
+  border-bottom-left-radius: var(--border-primary);
+  border-bottom-right-radius: var(--border-primary);
+  margin-bottom: -18px;
+  gap: 8px;
+}
+
+.mutation-content {
+  color: var(--primary-color);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+}
+
+.expand-btn {
+  width: 180px;
+  padding: var(--padding-xs);
+  margin: 0 auto;
+  background-color: transparent;
+  border-radius: var(--border-primary);
+  border: 1px solid var(--primary-color);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+  color: var(--primary-color);
+}
