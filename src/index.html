@@ -9,8 +9,30 @@
   </head>
   <body>
     <div class="container">
-      <header>
-       </header>
+      <header class="header-container">
+        <div class="d-flex header-main-wrapper">
+          <h1 class="header-brand">Foods Management</h1>
+          <form class="d-flex search-form">
+            <img
+              src="./assets/icons/search-icon.svg"
+              alt="Search Icon"
+              class="primary-icon"
+            />
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search for food, coffe, etc.."
+            />
+          </form>
+        </div>
+        <div class="d-flex-center header-sub-wrapper">
+          <select class="sort-select">
+            <option disabled selected class="select-item">Sort by</option>
+            <option class="select-item" value="0">ASC Price</option>
+            <option class="select-item" value="1">DESC Price</option>
+          </select>
+        </div>
+      </header>
       <main></main>
       <footer></footer>
     </div>
