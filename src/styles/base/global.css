@@ -1,38 +1,44 @@
 :root {
   /*color*/
+  --primary-color: #ea7c69;
   --text-primary: #fff;
-  --text-light: #ABBBC2;
+  --text-light: #abbbc2;
   --bg-primary: #252836;
   --bg-secondary: #1f1d2b;
-  --base-form-bg: #2D303E;
-  --base-dark-line: #393C49;
+  --base-form-bg: #2d303e;
+  --base-dark-line: #393c49;
   /*width*/
   --layout-default-max-width: 1440px;
 
   /*padding*/
   --padding-xs: 14px;
   --padding-sm: 20px;
+  --padding-nm: 27px;
   --padding-md: 55px;
-  --padding-xl: 78px;
+  --padding-lg: 65px;
+  --padding-2xl: 78px;
 
   /*border-radius*/
   --border-primary: 8px;
 
   /*font-size*/
   --font-size-sm: 14px;
+  --font-size-md: 16px;
   --font-size-lg: 20px;
 
   /*font-weight*/
   --font-weight-normal: 400;
+  --font-weight-medium: 500;
   --font-weight-bold: 600;
 
   /*line-height*/
+  --line-height-md: 130%;
   --line-height-lg: 140%;
 }
 
 body {
   background-color: var(--bg-primary);
-  padding: var( --padding-sm) 0;
+  padding: var(--padding-sm);
 }
 
 .container {
@@ -54,4 +60,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.d-flex-col {
+  display: flex;
+  flex-direction: column;
 }
