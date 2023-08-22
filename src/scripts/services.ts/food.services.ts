@@ -6,10 +6,7 @@ async function request<TResponse>(
 ): Promise<TResponse> {
   return await fetch(url, config)
     .then(async response => await response.json())
-    .then(data => {
-      console.log(data)
-      return data as TResponse
-    })
+    .then(data => data as TResponse)
 }
 /**
  * @class Service
@@ -54,6 +51,26 @@ export class FoodService {
         }
       )
       return response
+    } catch (error) {
+      console.error('API error:', error)
+      throw error
+    }
+  }
+
+  async addFood(food: Food): Promise<void> {
+    try {
+      const response = await request<Food>(
+        'https://64dd9b60825d19d9bfb14952.mockapi.io/foods',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(food)
+        }
+      )
+      this.foods.push(response)
+      this._commit(this.foods)
     } catch (error) {
       console.error('API error:', error)
       throw error

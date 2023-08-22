@@ -5,6 +5,11 @@ export interface FoodItem {
   imageUrl: string
 }
 
+/**
+ * @class Food
+ *
+ * Define the model of the data.
+ */
 export class Food implements FoodItem {
   constructor(
     public name: string,

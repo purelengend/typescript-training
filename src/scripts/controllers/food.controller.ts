@@ -5,21 +5,26 @@ import { type FoodView } from '../views/food.view'
 /**
  * @class Controller
  *
- * Links the user input and the view output.
+ * Links the food input and the view output.
  *
- * @param model
- * @param view
+ * @param foodService
+ * @param foodView
  */
 export class FoodController {
   constructor(
-    private readonly foodService: FoodService,
-    private readonly foodView: FoodView
+    public readonly foodService: FoodService,
+    public readonly foodView: FoodView
   ) {
+    this.foodView.bindAddFood(this.handleAddFood)
     this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.onFoodListChanged(this.foodService.foods)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
     this.foodView.displayFoods(foods)
+  }
+
+  handleAddFood(food: Food): void {
+    void this.foodService.addFood(food)
   }
 }
