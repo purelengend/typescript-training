@@ -20,12 +20,12 @@ export class FoodView {
   // private userList: HTMLElement;
   // private _temporaryAgeText: string;
   constructor() {
-    this.foodList = this.getElement('#food-list')
-    this.addCard = this.getElement('#add-card')
-    this.expand = this.getElement('#expand')
-    this.addModal = this.getElement('#add-modal')
-    this.closeAddBtn = this.getElement('#close-add-btn')
-    this.addForm = this.getElement('#add-form') as HTMLFormElement
+    this.foodList = this.getElement('food-list')
+    this.addCard = this.getElement('add-card')
+    this.expand = this.getElement('expand')
+    this.addModal = this.getElement('add-modal')
+    this.closeAddBtn = this.getElement('close-add-btn')
+    this.addForm = this.getElement('add-form') as HTMLFormElement
 
     this._initEventListenter()
   }
@@ -46,7 +46,7 @@ export class FoodView {
 
   // Retrieve an element from the DOM
   getElement(selector: string): HTMLElement {
-    const element = document.querySelector(selector)
+    const element = document.getElementById(selector)
     return element as HTMLElement
   }
 
@@ -91,10 +91,20 @@ export class FoodView {
     }
   }
 
-  bindAddFood(handler: (food: InputAddFood, ...args: any[]) => void): void {
+  closeAddForm(): void {
+    this.closeAddBtn.click()
+  }
+
+  bindAddFood(handler: (input: InputAddFood) => void): void {
     this.addForm.addEventListener('submit', function (e) {
       e.preventDefault()
-      handler(e.target as unknown as Food)
+      const food: InputAddFood = {
+        name: this.food.value,
+        price: this.price.value,
+        imageUrl: this.image.value,
+        quantity: this.quantity.value
+      }
+      handler(food)
     })
   }
 }
