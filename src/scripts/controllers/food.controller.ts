@@ -16,8 +16,8 @@ export class FoodController {
     public readonly foodService: FoodService,
     public readonly foodView: FoodView
   ) {
-    this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.onFoodListChanged(this.foodService.foods)
+    this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.foodView.bindAddFood(this.handleAddFood)
   }
 
