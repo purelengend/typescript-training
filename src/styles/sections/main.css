@@ -82,6 +82,9 @@
 }
 
 .product-name {
+  min-height: 41px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--text-primary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
