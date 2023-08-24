@@ -22,6 +22,7 @@ export class FoodController {
     this.foodView.bindDeleteFood(this.handleDeleteFood)
     this.foodView.bindEditForm(this.handleGetFoodById)
     this.foodView.bindEditFood(this.handleEditFood)
+    this.foodView.bindSearchFood(this.handleGetFoodByName)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
@@ -54,5 +55,9 @@ export class FoodController {
     callbackList: CallbackItem[] | undefined
   ): void => {
     void this.foodService.editFood(food, callbackList)
+  }
+
+  handleGetFoodByName = (name: string): void => {
+    void this.foodService.getFoodByName(name)
   }
 }
