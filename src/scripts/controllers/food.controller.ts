@@ -1,4 +1,4 @@
-import { closeModal } from '../helper/modal-ui'
+import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 import { type FoodService } from '../services.ts/food.services'
 import { type FoodView } from '../views/food.view'
@@ -26,13 +26,14 @@ export class FoodController {
     this.foodView.displayFoods(foods)
   }
 
-  handleAddFood = (food: Omit<Food, 'id'>): void => {
-    void this.foodService.addFood(food, closeModal, 'add-modal')
+  handleAddFood = (
+    food: Omit<Food, 'id'>,
+    callbackList: CallbackItem[]
+  ): void => {
+    void this.foodService.addFood(food, callbackList)
   }
 
-  handleDeleteFood = (id: string): void => {
-    void this.foodService.deleteFood(id, closeModal, 'delete-modal')
+  handleDeleteFood = (id: string, callbackList: CallbackItem[]): void => {
+    void this.foodService.deleteFood(id, callbackList)
   }
-
-  // void this.foodService.deleteFood(id)
 }

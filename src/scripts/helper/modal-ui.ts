@@ -15,3 +15,8 @@ export const openDeleteModal = (
   modal.style.visibility = 'visible'
   hiddenField.value = id
 }
+
+export const resetForm = (selector: string): void => {
+  const form = document.getElementById(selector) as HTMLFormElement
+  form.reset()
+}

@@ -1,4 +1,5 @@
 import { BASE_URL } from '../constants'
+import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 
 async function requestQuery<TResponse>(
@@ -77,30 +78,34 @@ export class FoodService {
 
   async addFood(
     food: Omit<Food, 'id'>,
-    callback?: (...args: any[]) => void,
-    argument?: any
+    callbackList: CallbackItem[]
   ): Promise<void> {
     const addedFood = await requestParam<Food>('POST', food)
     if (addedFood !== undefined) {
       const updatedFoodlist = [...this.foods, addedFood]
       this._commit(updatedFoodlist)
     }
-    if (callback !== undefined) callback(argument)
+    if (callbackList.length > 0) {
+      callbackList.forEach(item => {
+        const { callback, argument } = item
+        if (argument !== undefined) callback(...argument)
+      })
+    }
   }
 
-  async deleteFood(
-    id: string,
-    callback?: (...args: any[]) => void,
-    argument?: any
-  ): Promise<void> {
+  async deleteFood(id: string, callbackList: CallbackItem[]): Promise<void> {
     const deletedFood = await requestQuery<Food>('DELETE', `/${id}`)
     if (deletedFood !== undefined) {
       const updatedFoodlist = this.foods.filter(
         food => food.id !== deletedFood.id
       )
-      console.log(updatedFoodlist)
       this._commit(updatedFoodlist)
     }
-    if (callback !== undefined) callback(argument)
+    if (callbackList.length > 0) {
+      callbackList.forEach(item => {
+        const { callback, argument } = item
+        if (argument !== undefined) callback(...argument)
+      })
+    }
   }
 }

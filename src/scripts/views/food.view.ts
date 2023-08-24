@@ -1,4 +1,7 @@
-import { openDeleteModal } from '../helper/modal-ui'
+import { TOAST_ADD_MSG, TOAST_DELETE_MSG } from '../constants'
+import { closeModal, openDeleteModal, resetForm } from '../helper/modal-ui'
+import { showToast } from '../helper/toast-ui'
+import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 /**
  * @class View
@@ -39,6 +42,7 @@ export class FoodView {
 
     this.closeAddBtn.addEventListener('click', () => {
       this.addModal.style.visibility = 'hidden'
+      resetForm('add-form')
     })
 
     this.closeDeleteBtn.addEventListener('click', () => {
@@ -103,7 +107,9 @@ export class FoodView {
     this.spin.style.display = 'none'
   }
 
-  bindAddFood(handler: (input: Omit<Food, 'id'>) => void): void {
+  bindAddFood(
+    handler: (input: Omit<Food, 'id'>, callbackList: CallbackItem[]) => void
+  ): void {
     this.addForm.addEventListener('submit', function (e) {
       e.preventDefault()
       const food: Omit<Food, 'id'> = {
@@ -112,11 +118,27 @@ export class FoodView {
         imageUrl: this.image.value,
         quantity: this.quantity.value
       }
-      handler(food)
+      const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['add-modal']
+        },
+        {
+          callback: resetForm,
+          argument: ['add-form']
+        },
+        {
+          callback: showToast,
+          argument: [TOAST_ADD_MSG, 2500]
+        }
+      ]
+      handler(food, callbackList)
     })
   }
 
-  bindDeleteFood(handler: (input: string) => void): void {
+  bindDeleteFood(
+    handler: (input: string, callbackList: CallbackItem[]) => void
+  ): void {
     this.foodList.addEventListener('click', function (e) {
       e.preventDefault()
       if ((e.target as HTMLElement).className.includes('delete-btn')) {
@@ -130,7 +152,17 @@ export class FoodView {
 
     this.deleteForm.addEventListener('submit', function (e) {
       e.preventDefault()
-      handler(this['hidden-delete-id'].value)
+      const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['delete-modal']
+        },
+        {
+          callback: showToast,
+          argument: [TOAST_DELETE_MSG, 2500]
+        }
+      ]
+      handler(this['hidden-delete-id'].value, callbackList)
     })
   }
 }
