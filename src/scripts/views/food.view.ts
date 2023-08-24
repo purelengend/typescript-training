@@ -13,6 +13,7 @@ export class FoodView {
   public addModal: HTMLElement
   public closeAddBtn: HTMLElement
   public addForm: HTMLFormElement
+  public spin: HTMLElement
   // private submitButton: HTMLElement;
   // private inputName: HTMLInputElement;
   // private inputAge: HTMLInputElement;
@@ -26,7 +27,7 @@ export class FoodView {
     this.addModal = this.getElement('add-modal')
     this.closeAddBtn = this.getElement('close-add-btn')
     this.addForm = this.getElement('add-form') as HTMLFormElement
-
+    this.spin = this.getElement('spin')
     this._initEventListenter()
   }
 
@@ -88,6 +89,7 @@ export class FoodView {
         // Append nodes
         this.foodList.append(productCard)
       })
+      this.spin.style.display = 'none'
     }
   }
 
