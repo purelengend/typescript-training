@@ -1,4 +1,5 @@
 export interface FoodItem {
+  id: string
   name: string
   price: number
   quantity: number
@@ -12,6 +13,7 @@ export interface FoodItem {
  */
 export class Food implements FoodItem {
   constructor(
+    public id: string,
     public name: string,
     public price: number,
     public quantity: number,

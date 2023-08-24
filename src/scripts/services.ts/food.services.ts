@@ -1,23 +1,39 @@
 import { BASE_URL } from '../constants'
 import { type Food } from '../models/food.model'
-import { type InputAddFood } from '../models/form.model'
 
-async function request<TResponse>(
+async function requestQuery<TResponse>(
   method: string,
-  data?: InputAddFood
-): Promise<TResponse> {
-  const response = await fetch(BASE_URL, {
-    method,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  path?: string
+): Promise<TResponse | undefined> {
+  try {
+    const response = await fetch(`${BASE_URL}${path ?? ''}`, {
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    if (response.ok) return await response.json()
+  } catch (error) {
+    throw new Error('Error while sending request')
+  }
+}
 
-  if (response.ok) {
-    return await response.json()
-  } else {
+async function requestParam<TResponse>(
+  method: string,
+  data?: any
+): Promise<TResponse | undefined> {
+  try {
+    const response = await fetch(`${BASE_URL}`, {
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    if (response.ok) return await response.json()
+  } catch (error) {
     throw new Error('Error while sending request')
   }
 }
@@ -39,30 +55,52 @@ export class FoodService {
   }
 
   _commit(foods: Food[]): void {
-    this.onFoodListChanged(foods)
+    this.foods = foods
+    this.onFoodListChanged(this.foods)
   }
 
   async loadFoods(): Promise<void> {
     try {
       const foodList = await this.getAllFoods()
-      this.foods = foodList
-      this._commit(foodList)
+      if (foodList !== undefined) {
+        this.foods = foodList
+        this._commit(foodList)
+      }
     } catch (error) {
       console.error('Error loading foods:', error)
     }
   }
 
-  async getAllFoods(): Promise<Food[]> {
-    return await request<Food[]>('GET')
+  async getAllFoods(): Promise<Food[] | undefined> {
+    return await requestQuery<Food[]>('GET')
   }
 
   async addFood(
-    food: Food,
+    food: Omit<Food, 'id'>,
     callback?: (...args: any[]) => void,
     argument?: any
   ): Promise<void> {
-    const addedFood = await request<Food>('POST', food)
-    this._commit([addedFood])
+    const addedFood = await requestParam<Food>('POST', food)
+    if (addedFood !== undefined) {
+      const updatedFoodlist = [...this.foods, addedFood]
+      this._commit(updatedFoodlist)
+    }
+    if (callback !== undefined) callback(argument)
+  }
+
+  async deleteFood(
+    id: string,
+    callback?: (...args: any[]) => void,
+    argument?: any
+  ): Promise<void> {
+    const deletedFood = await requestQuery<Food>('DELETE', `/${id}`)
+    if (deletedFood !== undefined) {
+      const updatedFoodlist = this.foods.filter(
+        food => food.id !== deletedFood.id
+      )
+      console.log(updatedFoodlist)
+      this._commit(updatedFoodlist)
+    }
     if (callback !== undefined) callback(argument)
   }
 }

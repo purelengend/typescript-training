@@ -1,5 +1,5 @@
+import { openDeleteModal } from '../helper/modal-ui'
 import { type Food } from '../models/food.model'
-import { type InputAddFood } from '../models/form.model'
 /**
  * @class View
  *
@@ -14,20 +14,21 @@ export class FoodView {
   public closeAddBtn: HTMLElement
   public addForm: HTMLFormElement
   public spin: HTMLElement
-  // private submitButton: HTMLElement;
-  // private inputName: HTMLInputElement;
-  // private inputAge: HTMLInputElement;
-  // private title: HTMLElement;
-  // private userList: HTMLElement;
-  // private _temporaryAgeText: string;
+  public deleteModal: HTMLElement
+  public deleteForm: HTMLFormElement
+  public closeDeleteBtn: HTMLElement
+
   constructor() {
-    this.foodList = this.getElement('food-list')
-    this.addCard = this.getElement('add-card')
-    this.expand = this.getElement('expand')
-    this.addModal = this.getElement('add-modal')
-    this.closeAddBtn = this.getElement('close-add-btn')
-    this.addForm = this.getElement('add-form') as HTMLFormElement
-    this.spin = this.getElement('spin')
+    this.foodList = this.getElement('#food-list')
+    this.addCard = this.getElement('#add-card')
+    this.expand = this.getElement('#expand')
+    this.addModal = this.getElement('#add-modal')
+    this.closeAddBtn = this.getElement('#close-add-btn')
+    this.addForm = this.getElement('#add-form') as HTMLFormElement
+    this.spin = this.getElement('#spin')
+    this.deleteModal = this.getElement('#delete-modal')
+    this.deleteForm = this.getElement('#delete-form') as HTMLFormElement
+    this.closeDeleteBtn = this.getElement('#close-delete-btn')
     this._initEventListenter()
   }
 
@@ -40,6 +41,10 @@ export class FoodView {
       this.addModal.style.visibility = 'hidden'
     })
 
+    this.closeDeleteBtn.addEventListener('click', () => {
+      this.deleteModal.style.visibility = 'hidden'
+    })
+
     this.expand.addEventListener('click', () => {
       console.log('clicked')
     })
@@ -47,20 +52,26 @@ export class FoodView {
 
   // Retrieve an element from the DOM
   getElement(selector: string): HTMLElement {
-    const element = document.getElementById(selector)
+    const element = document.querySelector(selector)
     return element as HTMLElement
   }
 
   displayFoods(foods: Food[]): void {
-    if (foods.length !== 0) {
-      foods.forEach(food => {
-        // Create nodes
-        const productCard = document.createElement('div')
-        productCard.classList.add('d-flex-center', 'd-flex-col', 'product-card')
-        productCard.innerHTML = ` <img
+    if (this.foodList.lastElementChild !== null) {
+      while (this.foodList.lastElementChild.id !== 'add-card') {
+        this.foodList.removeChild(this.foodList.lastElementChild)
+      }
+    }
+
+    foods.forEach(food => {
+      // Create nodes
+      const productCard = document.createElement('div')
+      productCard.classList.add('d-flex-center', 'd-flex-col', 'product-card')
+      productCard.innerHTML = ` <img
         src="./assets/icons/cross-icon.svg"
         alt="Cross Icon"
-        class="secondary-icon"
+        class="secondary-icon delete-btn"
+        data-id="${food.id}"
       />
       <div class="d-flex-col product-wrapper">
         <img
@@ -86,27 +97,40 @@ export class FoodView {
         />
         <p class="mutation-content">Edit dish</p>
       </button>`
-        // Append nodes
-        this.foodList.append(productCard)
-      })
-      this.spin.style.display = 'none'
-    }
+      // Append nodes
+      this.foodList.append(productCard)
+    })
+    this.spin.style.display = 'none'
   }
 
-  closeAddForm(): void {
-    this.closeAddBtn.click()
-  }
-
-  bindAddFood(handler: (input: InputAddFood) => void): void {
+  bindAddFood(handler: (input: Omit<Food, 'id'>) => void): void {
     this.addForm.addEventListener('submit', function (e) {
       e.preventDefault()
-      const food: InputAddFood = {
+      const food: Omit<Food, 'id'> = {
         name: this.food.value,
         price: this.price.value,
         imageUrl: this.image.value,
         quantity: this.quantity.value
       }
       handler(food)
+    })
+  }
+
+  bindDeleteFood(handler: (input: string) => void): void {
+    this.foodList.addEventListener('click', function (e) {
+      e.preventDefault()
+      if ((e.target as HTMLElement).className.includes('delete-btn')) {
+        openDeleteModal(
+          'delete-modal',
+          'hidden-delete-id',
+          (e.target as HTMLElement).dataset.id as string
+        )
+      }
+    })
+
+    this.deleteForm.addEventListener('submit', function (e) {
+      e.preventDefault()
+      handler(this['hidden-delete-id'].value)
     })
   }
 }

@@ -19,13 +19,20 @@ export class FoodController {
     this.onFoodListChanged(this.foodService.foods)
     this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.foodView.bindAddFood(this.handleAddFood)
+    this.foodView.bindDeleteFood(this.handleDeleteFood)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
     this.foodView.displayFoods(foods)
   }
 
-  handleAddFood = (food: Food): void => {
+  handleAddFood = (food: Omit<Food, 'id'>): void => {
     void this.foodService.addFood(food, closeModal, 'add-modal')
   }
+
+  handleDeleteFood = (id: string): void => {
+    void this.foodService.deleteFood(id, closeModal, 'delete-modal')
+  }
+
+  // void this.foodService.deleteFood(id)
 }
