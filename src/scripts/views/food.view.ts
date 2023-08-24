@@ -50,20 +50,20 @@ export class FoodView {
 
   _initEventListenter(): void {
     this.addCard.addEventListener('click', () => {
-      this.addModal.style.visibility = 'visible'
+      this.addModal.style.display = 'inline-flex'
     })
 
     this.closeAddBtn.addEventListener('click', () => {
-      this.addModal.style.visibility = 'hidden'
+      this.addModal.style.display = 'none'
       resetForm('add-form')
     })
 
     this.closeDeleteBtn.addEventListener('click', () => {
-      this.deleteModal.style.visibility = 'hidden'
+      this.deleteModal.style.display = 'none'
     })
 
     this.closeEditBtn.addEventListener('click', () => {
-      this.editModal.style.visibility = 'hidden'
+      this.editModal.style.display = 'none'
       resetForm('edit-form')
     })
 
@@ -78,13 +78,16 @@ export class FoodView {
     return element as HTMLElement
   }
 
+  displaySpinner = (): void => {
+    this.spin.style.display = 'block'
+  }
+
   displayFoods(foods: Food[]): void {
     if (this.foodList.lastElementChild !== null) {
       while (this.foodList.lastElementChild.id !== 'add-card') {
         this.foodList.removeChild(this.foodList.lastElementChild)
       }
     }
-
     foods.forEach(food => {
       // Create nodes
       const productCard = document.createElement('div')

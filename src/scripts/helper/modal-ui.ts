@@ -2,7 +2,7 @@ import { type FoodItem } from '../models/food.model'
 
 export const closeModal = (selector: string): void => {
   const modal = document.getElementById(selector) as HTMLElement
-  modal.style.visibility = 'hidden'
+  modal.style.display = 'none'
 }
 
 export const openDeleteModal = (
@@ -14,7 +14,7 @@ export const openDeleteModal = (
   const hiddenField = document.getElementById(
     hiddenSelector
   ) as HTMLInputElement
-  modal.style.visibility = 'visible'
+  modal.style.display = 'inline-flex'
   hiddenField.value = id
 }
 
@@ -30,7 +30,7 @@ export const openEditModalForm = (
 ): void => {
   const modal = document.getElementById(modalSelector) as HTMLElement
   const form = document.getElementById(formSelector) as HTMLFormElement
-  modal.style.visibility = 'visible'
+  modal.style.display = 'inline-flex'
   form.editid.value = data.id
   form.editname.value = data.name
   form.editprice.value = data.price

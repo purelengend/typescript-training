@@ -23,6 +23,7 @@ export class FoodController {
     this.foodView.bindEditForm(this.handleGetFoodById)
     this.foodView.bindEditFood(this.handleEditFood)
     this.foodView.bindSearchFood(this.handleGetFoodByName)
+    this.foodView.displaySpinner()
   }
 
   onFoodListChanged = (foods: Food[]): void => {
@@ -58,6 +59,7 @@ export class FoodController {
   }
 
   handleGetFoodByName = (name: string): void => {
+    this.foodView.displaySpinner()
     void this.foodService.getFoodByName(name)
   }
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, inline-flex-scale=1.0" />
     <title>Foods Management</title>
     <link rel="stylesheet" href="./styles/index.css" />
   </head>
@@ -11,7 +11,9 @@
     <div class="container">
       <header class="header-container">
         <div class="d-flex header-main-wrapper">
-          <h1 class="header-brand">Foods Management</h1>
+          <a href="#">
+            <h1 class="header-brand">Foods Management</h1>
+          </a>
           <form class="d-flex search-form">
             <img
               src="./assets/icons/search-icon.svg"
@@ -85,7 +87,7 @@
     </div>
     <div
       id="delete-modal"
-      style="visibility: hidden"
+      style="display: none"
       class="d-flex-center modal-overlay"
     >
       <form id="delete-form" class="d-flex-col delete-modal-body">
@@ -104,7 +106,7 @@
 
     <div
       id="add-modal"
-      style="visibility: hidden"
+      style="display: none"
       class="d-flex-center modal-overlay"
     >
       <div class="d-flex-col mutation-modal-body">
@@ -152,7 +154,7 @@
     </div>
     <div
       id="edit-modal"
-      style="visibility: hidden"
+      style="display: none"
       class="d-flex-center modal-overlay"
     >
       <div class="d-flex-col mutation-modal-body">
