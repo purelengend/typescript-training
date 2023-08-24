@@ -1,3 +1,4 @@
+import { closeModal } from '../helper/modal-ui'
 import { type Food } from '../models/food.model'
 import { type FoodService } from '../services.ts/food.services'
 import { type FoodView } from '../views/food.view'
@@ -15,16 +16,16 @@ export class FoodController {
     public readonly foodService: FoodService,
     public readonly foodView: FoodView
   ) {
-    this.foodView.bindAddFood(this.handleAddFood)
     this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.onFoodListChanged(this.foodService.foods)
+    this.foodView.bindAddFood(this.handleAddFood)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
     this.foodView.displayFoods(foods)
   }
 
-  handleAddFood(food: Food): void {
-    void this.foodService.addFood(food)
+  handleAddFood = (food: Food): void => {
+    void this.foodService.addFood(food, closeModal, 'add-modal')
   }
 }

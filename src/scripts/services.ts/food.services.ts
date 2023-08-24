@@ -1,12 +1,25 @@
+import { BASE_URL } from '../constants'
 import { type Food } from '../models/food.model'
+import { type InputAddFood } from '../models/form.model'
 
 async function request<TResponse>(
-  url: string,
-  config: RequestInit = {}
+  method: string,
+  data?: InputAddFood
 ): Promise<TResponse> {
-  return await fetch(url, config)
-    .then(async response => await response.json())
-    .then(data => data as TResponse)
+  const response = await fetch(BASE_URL, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+
+  if (response.ok) {
+    return await response.json()
+  } else {
+    throw new Error('Error while sending request')
+  }
 }
 /**
  * @class Service
@@ -40,40 +53,16 @@ export class FoodService {
   }
 
   async getAllFoods(): Promise<Food[]> {
-    try {
-      const response = await request<Food[]>(
-        'https://64dd9b60825d19d9bfb14952.mockapi.io/foods',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      return response
-    } catch (error) {
-      console.error('API error:', error)
-      throw error
-    }
+    return await request<Food[]>('GET')
   }
 
-  async addFood(food: Food): Promise<void> {
-    try {
-      const response = await request<Food>(
-        'https://64dd9b60825d19d9bfb14952.mockapi.io/foods',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(food)
-        }
-      )
-      this.foods.push(response)
-      this._commit(this.foods)
-    } catch (error) {
-      console.error('API error:', error)
-      throw error
-    }
+  async addFood(
+    food: Food,
+    callback?: (...args: any[]) => void,
+    argument?: any
+  ): Promise<void> {
+    const addedFood = await request<Food>('POST', food)
+    this._commit([addedFood])
+    if (callback !== undefined) callback(argument)
   }
 }
