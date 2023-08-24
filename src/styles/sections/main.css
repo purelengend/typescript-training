@@ -54,7 +54,7 @@
 .primary-product {
   width: 127px;
   height: 127px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
 }
 

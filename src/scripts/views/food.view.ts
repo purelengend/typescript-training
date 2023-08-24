@@ -1,5 +1,10 @@
 import { TOAST_ADD_MSG, TOAST_DELETE_MSG } from '../constants'
-import { closeModal, openDeleteModal, resetForm } from '../helper/modal-ui'
+import {
+  closeModal,
+  openDeleteModal,
+  openEditModalForm,
+  resetForm
+} from '../helper/modal-ui'
 import { showToast } from '../helper/toast-ui'
 import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
@@ -20,6 +25,9 @@ export class FoodView {
   public deleteModal: HTMLElement
   public deleteForm: HTMLFormElement
   public closeDeleteBtn: HTMLElement
+  public editModal: HTMLElement
+  public closeEditBtn: HTMLElement
+  public editForm: HTMLFormElement
 
   constructor() {
     this.foodList = this.getElement('#food-list')
@@ -32,6 +40,9 @@ export class FoodView {
     this.deleteModal = this.getElement('#delete-modal')
     this.deleteForm = this.getElement('#delete-form') as HTMLFormElement
     this.closeDeleteBtn = this.getElement('#close-delete-btn')
+    this.editModal = this.getElement('#edit-modal')
+    this.closeEditBtn = this.getElement('#close-edit-btn')
+    this.editForm = this.getElement('#edit-form') as HTMLFormElement
     this._initEventListenter()
   }
 
@@ -47,6 +58,11 @@ export class FoodView {
 
     this.closeDeleteBtn.addEventListener('click', () => {
       this.deleteModal.style.visibility = 'hidden'
+    })
+
+    this.closeEditBtn.addEventListener('click', () => {
+      this.editModal.style.visibility = 'hidden'
+      resetForm('edit-form')
     })
 
     this.expand.addEventListener('click', () => {
@@ -93,13 +109,14 @@ export class FoodView {
         </div>
       </div>
 
-      <button class="d-flex-center product-mutation">
+      <button class="d-flex-center product-mutation mutation" data-id="${food.id}">
         <img
           src="./assets/icons/edit-icon.svg"
           alt="Edit Icon"
-          class="primary-icon"
+          class="primary-icon mutation"
+          data-id="${food.id}"
         />
-        <p class="mutation-content">Edit dish</p>
+        <p class="mutation-content mutation" data-id="${food.id}">Edit dish</p>
       </button>`
       // Append nodes
       this.foodList.append(productCard)
@@ -108,7 +125,7 @@ export class FoodView {
   }
 
   bindAddFood(
-    handler: (input: Omit<Food, 'id'>, callbackList: CallbackItem[]) => void
+    handler: (input: Omit<Food, 'id'>, callbackList?: CallbackItem[]) => void
   ): void {
     this.addForm.addEventListener('submit', function (e) {
       e.preventDefault()
@@ -137,16 +154,15 @@ export class FoodView {
   }
 
   bindDeleteFood(
-    handler: (input: string, callbackList: CallbackItem[]) => void
+    handler: (input: string, callbackList?: CallbackItem[]) => void
   ): void {
     this.foodList.addEventListener('click', function (e) {
       e.preventDefault()
-      if ((e.target as HTMLElement).className.includes('delete-btn')) {
-        openDeleteModal(
-          'delete-modal',
-          'hidden-delete-id',
-          (e.target as HTMLElement).dataset.id as string
-        )
+      const target = e.target as HTMLElement
+      if (target.className.includes('delete-btn')) {
+        if (target.dataset.id !== undefined) {
+          openDeleteModal('delete-modal', 'hidden-delete-id', target.dataset.id)
+        }
       }
     })
 
@@ -163,6 +179,48 @@ export class FoodView {
         }
       ]
       handler(this['hidden-delete-id'].value, callbackList)
+    })
+  }
+
+  bindEditForm(
+    handler: (input: string, callbackFunction?: CallbackItem) => void
+  ): void {
+    this.foodList.addEventListener('click', function (e) {
+      const target = e.target as HTMLElement
+      if (target.className.includes('mutation')) {
+        if (target.dataset.id !== undefined) {
+          handler(target.dataset.id, {
+            callback: openEditModalForm,
+            argument: ['edit-modal', 'edit-form']
+          })
+        }
+      }
+    })
+  }
+
+  bindEditFood(
+    handler: (input: Food, callbackList?: CallbackItem[]) => void
+  ): void {
+    this.editForm.addEventListener('submit', function (e) {
+      e.preventDefault()
+      const editFood: Food = {
+        id: this.editid.value,
+        name: this.editname.value,
+        price: this.editprice.value,
+        imageUrl: this.editimage.value,
+        quantity: this.editquantity.value
+      }
+      const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['edit-modal']
+        },
+        {
+          callback: showToast,
+          argument: [TOAST_ADD_MSG, 2500]
+        }
+      ]
+      handler(editFood, callbackList)
     })
   }
 }

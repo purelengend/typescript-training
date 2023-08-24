@@ -13,19 +13,6 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-.fade-out-animation {
-  animation: fadeOut 0.3s ease-in-out forwards;
-}
-
 .toast-message-wrapper {
   color: var(--text-primary);
   font-weight: var(--font-weight-bold);
