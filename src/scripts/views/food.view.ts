@@ -29,6 +29,7 @@ export class FoodView {
   public closeEditBtn: HTMLElement
   public editForm: HTMLFormElement
   public searchInput: HTMLInputElement
+  public sort: HTMLSelectElement
 
   constructor() {
     this.foodList = this.getElement('#food-list')
@@ -45,6 +46,7 @@ export class FoodView {
     this.closeEditBtn = this.getElement('#close-edit-btn')
     this.editForm = this.getElement('#edit-form') as HTMLFormElement
     this.searchInput = this.getElement('#search') as HTMLInputElement
+    this.sort = this.getElement('#sort') as HTMLSelectElement
     this._initEventListenter()
   }
 
@@ -233,8 +235,14 @@ export class FoodView {
     this.searchInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
         e.preventDefault()
-        handler(this.value)
+        handler(`name=${this.value}`)
       }
+    })
+  }
+
+  bindSortFood(handler: (input: string) => void): void {
+    this.sort.addEventListener('change', function () {
+      handler(this.value)
     })
   }
 }

@@ -29,10 +29,13 @@
           </form>
         </div>
         <div class="d-flex-center header-sub-wrapper">
-          <select class="sort-select">
+          <select id="sort" class="sort-select">
             <option disabled selected class="select-item">Sort by</option>
-            <option class="select-item" value="0">ASC Price</option>
-            <option class="select-item" value="1">DESC Price</option>
+            <option class="select-item" value="orderby=">Default</option>
+            <option class="select-item" value="orderby=price">ASC Price</option>
+            <option class="select-item" value="orderby=price&order=desc">
+              DESC Price
+            </option>
           </select>
         </div>
       </header>
@@ -114,7 +117,14 @@
         <form id="add-form" class="d-flex-col mutation-form">
           <div class="d-flex-col mutation-form-field">
             <label for="food" class="mutation-label">Name</label>
-            <input type="text" class="mutation-input" id="food" required />
+            <input
+              type="text"
+              class="mutation-input"
+              pattern="^(?=[A-Za-z0-9])([A-Za-z0-9\s]*)(?<=[A-Za-z0-9])$"
+              title="No white space before and after the name"
+              id="food"
+              required
+            />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="price" class="mutation-label">Price</label>
@@ -163,7 +173,14 @@
           <input type="hidden" id="editid" />
           <div class="d-flex-col mutation-form-field">
             <label for="editname" class="mutation-label">Name</label>
-            <input type="text" class="mutation-input" id="editname" required />
+            <input
+              type="text"
+              class="mutation-input"
+              pattern="^(?=[A-Za-z0-9])([A-Za-z0-9\s]*)(?<=[A-Za-z0-9])$"
+              title="No white space before and after the name"
+              id="editname"
+              required
+            />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="editprice" class="mutation-label">Price</label>

@@ -127,3 +127,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+a {
+  color: inherit; /* Inherit text color from parent */
+  text-decoration: none; /* Remove underline */
+}
+/* Apply styles to visited links */
+a:visited {
+  color: inherit; /* Inherit text color from parent */
+}

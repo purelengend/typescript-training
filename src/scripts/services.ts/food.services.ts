@@ -1,4 +1,4 @@
-import { BASE_URL } from '../constants'
+import { BASE_URL, RESOURCE } from '../constants'
 import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 
@@ -7,7 +7,7 @@ async function requestQuery<TResponse>(
   path?: string
 ): Promise<TResponse | undefined> {
   try {
-    const response = await fetch(`${BASE_URL}${path ?? ''}`, {
+    const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
       method,
       headers: {
         Accept: 'application/json',
@@ -26,7 +26,7 @@ async function requestBody<TResponse>(
   path?: string
 ): Promise<TResponse | undefined> {
   try {
-    const response = await fetch(`${BASE_URL}${path ?? ''}`, {
+    const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
       method,
       headers: {
         Accept: 'application/json',
@@ -48,7 +48,9 @@ async function requestBody<TResponse>(
 export class FoodService {
   public foods: Food[] = []
   private onFoodListChanged: (...args: any[]) => void = () => {}
-
+  public name: string = 'name='
+  public sort: string = 'orderby='
+  public path: string = `?${this.name}&${this.sort}`
   constructor() {
     void this.loadFoods()
   }
@@ -57,9 +59,13 @@ export class FoodService {
     this.onFoodListChanged = callback
   }
 
-  _commit(foods: Food[]): void {
+  private _commit(foods: Food[]): void {
     this.foods = foods
     this.onFoodListChanged(this.foods)
+  }
+
+  private _updatePath(): void {
+    this.path = `?${this.name}&${this.sort}`
   }
 
   async loadFoods(): Promise<void> {
@@ -75,7 +81,7 @@ export class FoodService {
   }
 
   async getAllFoods(): Promise<Food[] | undefined> {
-    return await requestQuery<Food[]>('GET')
+    return await requestQuery<Food[]>('GET', this.path)
   }
 
   async getFoodById(
@@ -92,9 +98,20 @@ export class FoodService {
   }
 
   async getFoodByName(name: string): Promise<void> {
-    const foodByNameList = await requestQuery<Food[]>('GET', `/?name=${name}`)
+    this.name = name
+    this._updatePath()
+    const foodByNameList = await requestQuery<Food[]>('GET', `${this.path}`)
     if (foodByNameList !== undefined) {
       this._commit(foodByNameList)
+    }
+  }
+
+  async sortFood(filter: string): Promise<void> {
+    this.sort = filter
+    this._updatePath()
+    const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+    if (filteredFoodList !== undefined) {
+      this._commit(filteredFoodList)
     }
   }
 
@@ -119,7 +136,7 @@ export class FoodService {
     food: Food,
     callbackList: CallbackItem[] | undefined
   ): Promise<void> {
-    const updatedFood = await requestBody<Food>('PUT', food, `/${food.id}`)
+    const updatedFood = await requestBody<Food>('PUT', food, `${food.id}`)
     if (updatedFood !== undefined) {
       const updatedFoodlist = [...this.foods]
       const updatedFoodIndex = updatedFoodlist.findIndex(
@@ -144,7 +161,7 @@ export class FoodService {
     id: string,
     callbackList: CallbackItem[] | undefined
   ): Promise<void> {
-    const deletedFood = await requestQuery<Food>('DELETE', `/${id}`)
+    const deletedFood = await requestQuery<Food>('DELETE', `${id}`)
     if (deletedFood !== undefined) {
       const updatedFoodlist = this.foods.filter(
         food => food.id !== deletedFood.id
