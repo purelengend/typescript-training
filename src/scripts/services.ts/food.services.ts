@@ -16,16 +16,17 @@ async function requestQuery<TResponse>(
     })
     if (response.ok) return await response.json()
   } catch (error) {
-    throw new Error('Error while sending request')
+    console.error('Error when sending request:', error)
   }
 }
 
-async function requestParam<TResponse>(
+async function requestBody<TResponse>(
   method: string,
-  data?: any
+  data?: any,
+  path?: string
 ): Promise<TResponse | undefined> {
   try {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}${path ?? ''}`, {
       method,
       headers: {
         Accept: 'application/json',
@@ -35,9 +36,10 @@ async function requestParam<TResponse>(
     })
     if (response.ok) return await response.json()
   } catch (error) {
-    throw new Error('Error while sending request')
+    console.error('Error when sending request:', error)
   }
 }
+
 /**
  * @class Service
  *
@@ -76,16 +78,29 @@ export class FoodService {
     return await requestQuery<Food[]>('GET')
   }
 
+  async getFoodById(
+    id: string,
+    callbackFunction: CallbackItem | undefined
+  ): Promise<void> {
+    const currentFood = await requestQuery<Food>('GET', `/${id}`)
+    if (currentFood !== undefined) {
+      if (callbackFunction !== undefined) {
+        const { callback, argument } = callbackFunction
+        if (argument !== undefined) callback(...argument, currentFood)
+      }
+    }
+  }
+
   async addFood(
     food: Omit<Food, 'id'>,
-    callbackList: CallbackItem[]
+    callbackList: CallbackItem[] | undefined
   ): Promise<void> {
-    const addedFood = await requestParam<Food>('POST', food)
+    const addedFood = await requestBody<Food>('POST', food)
     if (addedFood !== undefined) {
       const updatedFoodlist = [...this.foods, addedFood]
       this._commit(updatedFoodlist)
     }
-    if (callbackList.length > 0) {
+    if (callbackList !== undefined) {
       callbackList.forEach(item => {
         const { callback, argument } = item
         if (argument !== undefined) callback(...argument)
@@ -93,7 +108,35 @@ export class FoodService {
     }
   }
 
-  async deleteFood(id: string, callbackList: CallbackItem[]): Promise<void> {
+  async editFood(
+    food: Food,
+    callbackList: CallbackItem[] | undefined
+  ): Promise<void> {
+    const updatedFood = await requestBody<Food>('PUT', food, `/${food.id}`)
+    if (updatedFood !== undefined) {
+      const updatedFoodlist = [...this.foods]
+      const updatedFoodIndex = updatedFoodlist.findIndex(
+        food => food.id === updatedFood.id
+      )
+      updatedFoodlist[updatedFoodIndex].id = updatedFood.id
+      updatedFoodlist[updatedFoodIndex].name = updatedFood.name
+      updatedFoodlist[updatedFoodIndex].price = updatedFood.price
+      updatedFoodlist[updatedFoodIndex].imageUrl = food.imageUrl
+      updatedFoodlist[updatedFoodIndex].quantity = food.quantity
+      this._commit(updatedFoodlist)
+    }
+    if (callbackList !== undefined) {
+      callbackList.forEach(item => {
+        const { callback, argument } = item
+        if (argument !== undefined) callback(...argument)
+      })
+    }
+  }
+
+  async deleteFood(
+    id: string,
+    callbackList: CallbackItem[] | undefined
+  ): Promise<void> {
     const deletedFood = await requestQuery<Food>('DELETE', `/${id}`)
     if (deletedFood !== undefined) {
       const updatedFoodlist = this.foods.filter(
@@ -101,7 +144,7 @@ export class FoodService {
       )
       this._commit(updatedFoodlist)
     }
-    if (callbackList.length > 0) {
+    if (callbackList !== undefined) {
       callbackList.forEach(item => {
         const { callback, argument } = item
         if (argument !== undefined) callback(...argument)

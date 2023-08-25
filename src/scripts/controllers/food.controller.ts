@@ -20,6 +20,8 @@ export class FoodController {
     this.foodService.bindFoodListChanged(this.onFoodListChanged)
     this.foodView.bindAddFood(this.handleAddFood)
     this.foodView.bindDeleteFood(this.handleDeleteFood)
+    this.foodView.bindEditForm(this.handleGetFoodById)
+    this.foodView.bindEditFood(this.handleEditFood)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
@@ -28,12 +30,29 @@ export class FoodController {
 
   handleAddFood = (
     food: Omit<Food, 'id'>,
-    callbackList: CallbackItem[]
+    callbackList: CallbackItem[] | undefined
   ): void => {
     void this.foodService.addFood(food, callbackList)
   }
 
-  handleDeleteFood = (id: string, callbackList: CallbackItem[]): void => {
+  handleDeleteFood = (
+    id: string,
+    callbackList: CallbackItem[] | undefined
+  ): void => {
     void this.foodService.deleteFood(id, callbackList)
+  }
+
+  handleGetFoodById = (
+    id: string,
+    callbackFunction: CallbackItem | undefined
+  ): void => {
+    void this.foodService.getFoodById(id, callbackFunction)
+  }
+
+  handleEditFood = (
+    food: Food,
+    callbackList: CallbackItem[] | undefined
+  ): void => {
+    void this.foodService.editFood(food, callbackList)
   }
 }
