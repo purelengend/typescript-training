@@ -91,6 +91,13 @@ export class FoodService {
     }
   }
 
+  async getFoodByName(name: string): Promise<void> {
+    const foodByNameList = await requestQuery<Food[]>('GET', `/?name=${name}`)
+    if (foodByNameList !== undefined) {
+      this._commit(foodByNameList)
+    }
+  }
+
   async addFood(
     food: Omit<Food, 'id'>,
     callbackList: CallbackItem[] | undefined

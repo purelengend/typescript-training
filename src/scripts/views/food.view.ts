@@ -28,6 +28,7 @@ export class FoodView {
   public editModal: HTMLElement
   public closeEditBtn: HTMLElement
   public editForm: HTMLFormElement
+  public searchInput: HTMLInputElement
 
   constructor() {
     this.foodList = this.getElement('#food-list')
@@ -43,25 +44,26 @@ export class FoodView {
     this.editModal = this.getElement('#edit-modal')
     this.closeEditBtn = this.getElement('#close-edit-btn')
     this.editForm = this.getElement('#edit-form') as HTMLFormElement
+    this.searchInput = this.getElement('#search') as HTMLInputElement
     this._initEventListenter()
   }
 
   _initEventListenter(): void {
     this.addCard.addEventListener('click', () => {
-      this.addModal.style.visibility = 'visible'
+      this.addModal.style.display = 'inline-flex'
     })
 
     this.closeAddBtn.addEventListener('click', () => {
-      this.addModal.style.visibility = 'hidden'
+      this.addModal.style.display = 'none'
       resetForm('add-form')
     })
 
     this.closeDeleteBtn.addEventListener('click', () => {
-      this.deleteModal.style.visibility = 'hidden'
+      this.deleteModal.style.display = 'none'
     })
 
     this.closeEditBtn.addEventListener('click', () => {
-      this.editModal.style.visibility = 'hidden'
+      this.editModal.style.display = 'none'
       resetForm('edit-form')
     })
 
@@ -76,13 +78,16 @@ export class FoodView {
     return element as HTMLElement
   }
 
+  displaySpinner = (): void => {
+    this.spin.style.display = 'block'
+  }
+
   displayFoods(foods: Food[]): void {
     if (this.foodList.lastElementChild !== null) {
       while (this.foodList.lastElementChild.id !== 'add-card') {
         this.foodList.removeChild(this.foodList.lastElementChild)
       }
     }
-
     foods.forEach(food => {
       // Create nodes
       const productCard = document.createElement('div')
@@ -221,6 +226,15 @@ export class FoodView {
         }
       ]
       handler(editFood, callbackList)
+    })
+  }
+
+  bindSearchFood(handler: (input: string) => void): void {
+    this.searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        handler(this.value)
+      }
     })
   }
 }
