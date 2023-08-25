@@ -59,7 +59,8 @@
 }
 
 .product-content-wrapper {
-  width: 144px;
+  min-width: 144px;
+  max-width: fit-content;
   gap: 8px;
   font-size: var(--font-size-xs);
   color: var(--text-light);
@@ -156,4 +157,8 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.delete-btn:hover {
+  cursor: pointer;
 }

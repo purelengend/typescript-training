@@ -32,9 +32,11 @@
           <select id="sort" class="sort-select">
             <option disabled selected class="select-item">Sort by</option>
             <option class="select-item" value="orderby=">Default</option>
-            <option class="select-item" value="orderby=price">ASC Price</option>
-            <option class="select-item" value="orderby=price&order=desc">
+            <option class="select-item" value="orderby=price">
               DESC Price
+            </option>
+            <option class="select-item" value="orderby=price&order=desc">
+              ASC Price
             </option>
           </select>
         </div>
@@ -218,7 +220,11 @@
         </form>
       </div>
     </div>
-    <div id="toast-container" class="d-flex toast-container">
+    <div
+      id="toast-container"
+      style="visibility: hidden"
+      class="d-flex toast-container"
+    >
       <div class="d-flex toast-message-wrapper">
         <img
           src="./assets/icons/check-mark-icon.svg"
@@ -227,6 +233,13 @@
         />
         <p id="toast-message"></p>
       </div>
+    </div>
+    <div
+      id="loading-modal"
+      style="display: none"
+      class="d-flex-center modal-overlay"
+    >
+      <div id="spin" class="loader"></div>
     </div>
     <script type="module" defer src="/scripts/app.ts"></script>
   </body>
