@@ -25,10 +25,11 @@ export class FoodController {
     this.foodView.bindSearchFood(this.handleGetFoodByName)
     this.foodView.displaySpinner()
     this.foodView.bindSortFood(this.handleSortFood)
+    this.foodView.bindExpandFood(this.handleExpandFood)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
-    this.foodView.displayFoods(foods.reverse())
+    this.foodView.displayFoods(foods)
   }
 
   handleAddFood = (
@@ -77,5 +78,14 @@ export class FoodController {
   ): void => {
     this.foodView.displayLoadingModal()
     void this.foodService.sortFood(filter, callbackList)
+  }
+
+  handleExpandFood = (
+    limit: number,
+    callbackList: CallbackItem[] | undefined
+  ): void => {
+    console.log(typeof limit)
+    this.foodView.displayLoadingModal()
+    void this.foodService.expandFood(limit, callbackList)
   }
 }

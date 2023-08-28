@@ -32,6 +32,7 @@ export class FoodView {
   public searchInput: HTMLInputElement
   public sort: HTMLSelectElement
   public loadingModal: HTMLElement
+  public header: HTMLElement
 
   constructor() {
     this.foodList = this.getElement('#food-list')
@@ -50,6 +51,7 @@ export class FoodView {
     this.searchInput = this.getElement('#search') as HTMLInputElement
     this.sort = this.getElement('#sort') as HTMLSelectElement
     this.loadingModal = this.getElement('#loading-modal')
+    this.header = this.getElement('#header')
     this._initEventListenter()
   }
 
@@ -72,8 +74,9 @@ export class FoodView {
       resetForm('edit-form')
     })
 
-    this.expand.addEventListener('click', () => {
-      console.log('clicked')
+    this.header.addEventListener('click', e => {
+      e.preventDefault()
+      window.location.reload()
     })
   }
 
@@ -290,6 +293,21 @@ export class FoodView {
         }
       ]
       handler(this.value, callbackList)
+    })
+  }
+
+  bindExpandFood(
+    handler: (limit: number, callbackList?: CallbackItem[]) => void
+  ): void {
+    this.expand.addEventListener('click', e => {
+      const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['loading-modal']
+        }
+      ]
+      const target = e.target as HTMLElement
+      handler(Number(target.dataset.limit), callbackList)
     })
   }
 }

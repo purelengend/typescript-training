@@ -13,6 +13,10 @@
   line-height: var(--line-height-lg);
 }
 
+.header-brand:active {
+  color: var(--primary-color);
+}
+
 .search-form {
   background-color: var(--base-form-bg);
   padding: var(--padding-xs);

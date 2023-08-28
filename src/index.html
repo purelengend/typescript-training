@@ -12,7 +12,7 @@
       <header class="header-container">
         <div class="d-flex header-main-wrapper">
           <a href="#">
-            <h1 class="header-brand">Foods Management</h1>
+            <h1 id="header" class="header-brand">Foods Management</h1>
           </a>
           <form class="d-flex search-form">
             <img
@@ -32,11 +32,9 @@
           <select id="sort" class="sort-select">
             <option disabled selected class="select-item">Sort by</option>
             <option class="select-item" value="orderby=">Default</option>
-            <option class="select-item" value="orderby=price">
-              DESC Price
-            </option>
+            <option class="select-item" value="orderby=price">ASC Price</option>
             <option class="select-item" value="orderby=price&order=desc">
-              ASC Price
+              DESC Price
             </option>
           </select>
         </div>
@@ -86,7 +84,7 @@
             </button>
           </div> -->
         </div>
-        <button id="expand" class="d-flex-center expand-btn">SHOW MORE</button>
+        <button id="expand" type="button" data-limit="10" class="d-flex-center expand-btn">SHOW MORE</button>
       </main>
       <footer class="footer-container"></footer>
     </div>

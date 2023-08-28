@@ -50,7 +50,8 @@ export class FoodService {
   private onFoodListChanged: (...args: any[]) => void = () => {}
   public name: string = 'name='
   public sort: string = 'orderby='
-  public path: string = `?${this.name}&${this.sort}`
+  public limit: number = 9
+  public path: string = `?${this.name}&${this.sort}&page=1&limit=${9}`
   constructor() {
     void this.loadFoods()
   }
@@ -65,7 +66,7 @@ export class FoodService {
   }
 
   private _updatePath(): void {
-    this.path = `?${this.name}&${this.sort}`
+    this.path = `?${this.name}&${this.sort}&page=1&limit=${this.limit}`
   }
 
   async loadFoods(): Promise<void> {
@@ -135,6 +136,28 @@ export class FoodService {
     }
   }
 
+  async expandFood(
+    limit: number,
+    callbackList: CallbackItem[] | undefined
+  ): Promise<void> {
+    this.limit += limit
+    this._updatePath()
+    const expandedFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+    if (expandedFoodList !== undefined) {
+      if (expandedFoodList.length > this.foods.length) {
+        this._commit(expandedFoodList)
+      } else {
+        this.limit -= limit
+      }
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
+    }
+  }
+
   async addFood(
     food: Omit<Food, 'id'>,
     callbackList: CallbackItem[] | undefined
@@ -167,7 +190,7 @@ export class FoodService {
       updatedFoodlist[updatedFoodIndex].price = updatedFood.price
       updatedFoodlist[updatedFoodIndex].imageUrl = food.imageUrl
       updatedFoodlist[updatedFoodIndex].quantity = food.quantity
-      this._commit(updatedFoodlist.reverse())
+      this._commit(updatedFoodlist)
     }
     if (callbackList !== undefined) {
       callbackList.forEach(item => {
@@ -186,7 +209,7 @@ export class FoodService {
       const updatedFoodlist = this.foods.filter(
         food => food.id !== deletedFood.id
       )
-      this._commit(updatedFoodlist.reverse())
+      this._commit(updatedFoodlist)
     }
     if (callbackList !== undefined) {
       callbackList.forEach(item => {

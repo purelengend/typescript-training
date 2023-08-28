@@ -15,10 +15,22 @@ function isValidNumber(input: number): boolean {
 }
 
 function isValidImageUrl(url: string): boolean {
-  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp']
+  const imageExtensions = [
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'bmp',
+    'svg',
+    'webp',
+    'q=80'
+  ]
 
   const urlLower = url.toLowerCase()
-  return imageExtensions.some(extension => urlLower.endsWith('.' + extension))
+  return imageExtensions.some(
+    extension =>
+      urlLower.endsWith('.' + extension) || urlLower.endsWith('&' + extension)
+  )
 }
 
 function appendErrorElement(
