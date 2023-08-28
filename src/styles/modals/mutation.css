@@ -24,7 +24,7 @@
 }
 
 .mutation-label {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-md);
   color: var(--text-primary);
@@ -38,6 +38,13 @@
   background-color: var(--base-form-bg);
   outline: none;
   color: var(--text-primary);
+}
+
+.mutation-warning {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+  color: var(--text-warning);
 }
 
 .half {

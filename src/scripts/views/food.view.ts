@@ -1,4 +1,5 @@
 import { TOAST_ADD_MSG, TOAST_DELETE_MSG, TOAST_EDIT_MSG } from '../constants'
+import { validateAddFood, validateEditFood } from '../helper/form-validation'
 import {
   closeModal,
   openDeleteModal,
@@ -152,6 +153,7 @@ export class FoodView {
         imageUrl: this.image.value,
         quantity: Number(this.quantity.value)
       }
+
       const callbackList: CallbackItem[] = [
         {
           callback: closeModal,
@@ -170,7 +172,7 @@ export class FoodView {
           argument: [TOAST_ADD_MSG, 2500]
         }
       ]
-      handler(food, callbackList)
+      if (validateAddFood(this)) handler(food, callbackList)
     })
   }
 
@@ -256,7 +258,7 @@ export class FoodView {
           argument: [TOAST_EDIT_MSG, 2500]
         }
       ]
-      handler(editFood, callbackList)
+      if (validateEditFood(this)) handler(editFood, callbackList)
     })
   }
 

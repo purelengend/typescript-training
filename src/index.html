@@ -119,40 +119,31 @@
         <form id="add-form" class="d-flex-col mutation-form">
           <div class="d-flex-col mutation-form-field">
             <label for="food" class="mutation-label">Name</label>
-            <input
-              type="text"
-              class="mutation-input"
-              pattern="^(?=[A-Za-z0-9])([A-Za-z0-9\s]*)(?<=[A-Za-z0-9])$"
-              title="No white space before and after the name"
-              id="food"
-              required
-            />
+            <input type="text" class="mutation-input" id="food" name="food" />
+            <!-- <p class="mutation-warning">No white space before and after the name</p> -->
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="price" class="mutation-label">Price</label>
             <input
               type="number"
               step="0.01"
-              min="0"
               class="mutation-input"
               id="price"
-              required
+              name="price"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="image" class="mutation-label">Image URL</label>
-            <input type="text" class="mutation-input" id="image" required />
+            <input type="text" class="mutation-input" id="image" name="image" />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="quantity" class="mutation-label">Quantity</label>
             <input
               type="number"
               step="1"
-              min="1"
-              value="1"
               class="mutation-input half"
               id="quantity"
-              required
+              name="quantity"
             />
           </div>
           <div class="d-flex mutation-modal-btn-wrapper">
@@ -172,16 +163,14 @@
       <div class="d-flex-col mutation-modal-body">
         <h2 class="mutation-modal-content">Edit</h2>
         <form id="edit-form" class="d-flex-col mutation-form">
-          <input type="hidden" id="editid" />
+          <input type="hidden" id="editid" name="editid" />
           <div class="d-flex-col mutation-form-field">
             <label for="editname" class="mutation-label">Name</label>
             <input
               type="text"
               class="mutation-input"
-              pattern="^(?=[A-Za-z0-9])([A-Za-z0-9\s]*)(?<=[A-Za-z0-9])$"
-              title="No white space before and after the name"
               id="editname"
-              required
+              name="editname"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
@@ -189,26 +178,28 @@
             <input
               type="number"
               step="0.01"
-              min="0"
               class="mutation-input"
               id="editprice"
-              required
+              name="editprice"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="editimage" class="mutation-label">Image URL</label>
-            <input type="text" class="mutation-input" id="editimage" required />
+            <input
+              type="text"
+              class="mutation-input"
+              id="editimage"
+              name="editimage"
+            />
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="editquantity" class="mutation-label">Quantity</label>
             <input
               type="number"
               step="1"
-              min="1"
-              value="1"
               class="mutation-input half"
               id="editquantity"
-              required
+              name="editquantity"
             />
           </div>
           <div class="d-flex mutation-modal-btn-wrapper">
