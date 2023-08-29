@@ -10,7 +10,7 @@
   padding: 13px 11px;
   z-index: 99;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .toast-message-wrapper {

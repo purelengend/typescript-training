@@ -28,13 +28,14 @@ export class FoodController {
   }
 
   onFoodListChanged = (foods: Food[]): void => {
-    this.foodView.displayFoods(foods)
+    this.foodView.displayFoods(foods.reverse())
   }
 
   handleAddFood = (
     food: Omit<Food, 'id'>,
     callbackList: CallbackItem[] | undefined
   ): void => {
+    this.foodView.displayLoadingModal()
     void this.foodService.addFood(food, callbackList)
   }
 
@@ -42,28 +43,39 @@ export class FoodController {
     id: string,
     callbackList: CallbackItem[] | undefined
   ): void => {
+    this.foodView.displayLoadingModal()
     void this.foodService.deleteFood(id, callbackList)
   }
 
   handleGetFoodById = (
     id: string,
-    callbackFunction: CallbackItem | undefined
+    callbackList: CallbackItem[] | undefined
   ): void => {
-    void this.foodService.getFoodById(id, callbackFunction)
+    this.foodView.displayLoadingModal()
+    void this.foodService.getFoodById(id, callbackList)
   }
 
   handleEditFood = (
     food: Food,
     callbackList: CallbackItem[] | undefined
   ): void => {
+    this.foodView.displayLoadingModal()
     void this.foodService.editFood(food, callbackList)
   }
 
-  handleGetFoodByName = (name: string): void => {
-    void this.foodService.getFoodByName(name)
+  handleGetFoodByName = (
+    name: string,
+    callbackList: CallbackItem[] | undefined
+  ): void => {
+    this.foodView.displayLoadingModal()
+    void this.foodService.getFoodByName(name, callbackList)
   }
 
-  handleSortFood = (filter: string): void => {
-    void this.foodService.sortFood(filter)
+  handleSortFood = (
+    filter: string,
+    callbackList: CallbackItem[] | undefined
+  ): void => {
+    this.foodView.displayLoadingModal()
+    void this.foodService.sortFood(filter, callbackList)
   }
 }

@@ -1,4 +1,5 @@
-import { TOAST_ADD_MSG, TOAST_DELETE_MSG } from '../constants'
+import { TOAST_ADD_MSG, TOAST_DELETE_MSG, TOAST_EDIT_MSG } from '../constants'
+import { validateAddFood, validateEditFood } from '../helper/form-validation'
 import {
   closeModal,
   openDeleteModal,
@@ -30,6 +31,7 @@ export class FoodView {
   public editForm: HTMLFormElement
   public searchInput: HTMLInputElement
   public sort: HTMLSelectElement
+  public loadingModal: HTMLElement
 
   constructor() {
     this.foodList = this.getElement('#food-list')
@@ -47,6 +49,7 @@ export class FoodView {
     this.editForm = this.getElement('#edit-form') as HTMLFormElement
     this.searchInput = this.getElement('#search') as HTMLInputElement
     this.sort = this.getElement('#sort') as HTMLSelectElement
+    this.loadingModal = this.getElement('#loading-modal')
     this._initEventListenter()
   }
 
@@ -82,6 +85,14 @@ export class FoodView {
 
   displaySpinner = (): void => {
     this.spin.style.display = 'block'
+  }
+
+  displayLoadingModal = (): void => {
+    this.loadingModal.style.display = 'inline-flex'
+  }
+
+  hideLoadingModal = (): void => {
+    this.loadingModal.style.display = 'none'
   }
 
   displayFoods(foods: Food[]): void {
@@ -138,11 +149,16 @@ export class FoodView {
       e.preventDefault()
       const food: Omit<Food, 'id'> = {
         name: this.food.value,
-        price: this.price.value,
+        price: Number(this.price.value),
         imageUrl: this.image.value,
-        quantity: this.quantity.value
+        quantity: Number(this.quantity.value)
       }
+
       const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['loading-modal']
+        },
         {
           callback: closeModal,
           argument: ['add-modal']
@@ -156,7 +172,7 @@ export class FoodView {
           argument: [TOAST_ADD_MSG, 2500]
         }
       ]
-      handler(food, callbackList)
+      if (validateAddFood(this)) handler(food, callbackList)
     })
   }
 
@@ -178,6 +194,10 @@ export class FoodView {
       const callbackList: CallbackItem[] = [
         {
           callback: closeModal,
+          argument: ['loading-modal']
+        },
+        {
+          callback: closeModal,
           argument: ['delete-modal']
         },
         {
@@ -190,16 +210,23 @@ export class FoodView {
   }
 
   bindEditForm(
-    handler: (input: string, callbackFunction?: CallbackItem) => void
+    handler: (input: string, callbackList?: CallbackItem[]) => void
   ): void {
     this.foodList.addEventListener('click', function (e) {
       const target = e.target as HTMLElement
       if (target.className.includes('mutation')) {
         if (target.dataset.id !== undefined) {
-          handler(target.dataset.id, {
-            callback: openEditModalForm,
-            argument: ['edit-modal', 'edit-form']
-          })
+          const callbackList: CallbackItem[] = [
+            {
+              callback: closeModal,
+              argument: ['loading-modal']
+            },
+            {
+              callback: openEditModalForm,
+              argument: ['edit-modal', 'edit-form']
+            }
+          ]
+          handler(target.dataset.id, callbackList)
         }
       }
     })
@@ -213,36 +240,56 @@ export class FoodView {
       const editFood: Food = {
         id: this.editid.value,
         name: this.editname.value,
-        price: this.editprice.value,
+        price: Number(this.editprice.value),
         imageUrl: this.editimage.value,
-        quantity: this.editquantity.value
+        quantity: Number(this.editquantity.value)
       }
       const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['loading-modal']
+        },
         {
           callback: closeModal,
           argument: ['edit-modal']
         },
         {
           callback: showToast,
-          argument: [TOAST_ADD_MSG, 2500]
+          argument: [TOAST_EDIT_MSG, 2500]
         }
       ]
-      handler(editFood, callbackList)
+      if (validateEditFood(this)) handler(editFood, callbackList)
     })
   }
 
-  bindSearchFood(handler: (input: string) => void): void {
+  bindSearchFood(
+    handler: (input: string, callbackList?: CallbackItem[]) => void
+  ): void {
     this.searchInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
         e.preventDefault()
-        handler(`name=${this.value}`)
+        const callbackList: CallbackItem[] = [
+          {
+            callback: closeModal,
+            argument: ['loading-modal']
+          }
+        ]
+        handler(`name=${this.value}`, callbackList)
       }
     })
   }
 
-  bindSortFood(handler: (input: string) => void): void {
+  bindSortFood(
+    handler: (input: string, callbackList?: CallbackItem[]) => void
+  ): void {
     this.sort.addEventListener('change', function () {
-      handler(this.value)
+      const callbackList: CallbackItem[] = [
+        {
+          callback: closeModal,
+          argument: ['loading-modal']
+        }
+      ]
+      handler(this.value, callbackList)
     })
   }
 }

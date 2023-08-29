@@ -4,6 +4,7 @@
   --alternative-color: #634c51;
   --text-primary: #fff;
   --text-light: #abbbc2;
+  --text-warning: #f00;
   --bg-primary: #252836;
   --bg-secondary: #1f1d2b;
   --base-form-bg: #2d303e;
@@ -46,15 +47,19 @@ body {
   padding: var(--padding-sm);
 }
 
+body {
+  font-family: Barlow, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
 .container {
   max-width: var(--layout-default-max-width);
   margin: 0 auto;
   background-color: var(--bg-secondary);
   border-radius: var(--border-primary);
-}
-
-body {
-  font-family: Barlow, sans-serif;
 }
 
 .d-flex {

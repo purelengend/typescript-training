@@ -86,32 +86,52 @@ export class FoodService {
 
   async getFoodById(
     id: string,
-    callbackFunction: CallbackItem | undefined
+    callbackList: CallbackItem[] | undefined
   ): Promise<void> {
     const currentFood = await requestQuery<Food>('GET', `/${id}`)
     if (currentFood !== undefined) {
-      if (callbackFunction !== undefined) {
-        const { callback, argument } = callbackFunction
-        if (argument !== undefined) callback(...argument, currentFood)
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument = undefined } = item
+          if (argument !== undefined) callback(...argument, currentFood)
+        })
       }
     }
   }
 
-  async getFoodByName(name: string): Promise<void> {
+  async getFoodByName(
+    name: string,
+    callbackList: CallbackItem[] | undefined
+  ): Promise<void> {
     this.name = name
     this._updatePath()
     const foodByNameList = await requestQuery<Food[]>('GET', `${this.path}`)
     if (foodByNameList !== undefined) {
       this._commit(foodByNameList)
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
     }
   }
 
-  async sortFood(filter: string): Promise<void> {
+  async sortFood(
+    filter: string,
+    callbackList: CallbackItem[] | undefined
+  ): Promise<void> {
     this.sort = filter
     this._updatePath()
     const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
     if (filteredFoodList !== undefined) {
       this._commit(filteredFoodList)
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
     }
   }
 
@@ -121,8 +141,8 @@ export class FoodService {
   ): Promise<void> {
     const addedFood = await requestBody<Food>('POST', food)
     if (addedFood !== undefined) {
-      const updatedFoodlist = [...this.foods, addedFood]
-      this._commit(updatedFoodlist)
+      const updatedFoodlist = await requestQuery<Food[]>('GET', `${this.path}`)
+      updatedFoodlist != null && this._commit(updatedFoodlist)
     }
     if (callbackList !== undefined) {
       callbackList.forEach(item => {
@@ -147,7 +167,7 @@ export class FoodService {
       updatedFoodlist[updatedFoodIndex].price = updatedFood.price
       updatedFoodlist[updatedFoodIndex].imageUrl = food.imageUrl
       updatedFoodlist[updatedFoodIndex].quantity = food.quantity
-      this._commit(updatedFoodlist)
+      this._commit(updatedFoodlist.reverse())
     }
     if (callbackList !== undefined) {
       callbackList.forEach(item => {
@@ -166,7 +186,7 @@ export class FoodService {
       const updatedFoodlist = this.foods.filter(
         food => food.id !== deletedFood.id
       )
-      this._commit(updatedFoodlist)
+      this._commit(updatedFoodlist.reverse())
     }
     if (callbackList !== undefined) {
       callbackList.forEach(item => {
