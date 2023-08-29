@@ -24,6 +24,7 @@ export class FoodController {
     this.foodView.bindEditFood(this.handleEditFood)
     this.foodView.bindSearchFood(this.handleGetFoodByName)
     this.foodView.displaySpinner()
+    this.foodView.bindSortFood(this.handleSortFood)
   }
 
   onFoodListChanged = (foods: Food[]): void => {
@@ -59,7 +60,10 @@ export class FoodController {
   }
 
   handleGetFoodByName = (name: string): void => {
-    this.foodView.displaySpinner()
     void this.foodService.getFoodByName(name)
+  }
+
+  handleSortFood = (filter: string): void => {
+    void this.foodService.sortFood(filter)
   }
 }
