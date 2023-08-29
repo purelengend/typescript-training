@@ -1,57 +1,27 @@
-import { BASE_URL, RESOURCE } from '../constants'
+import {
+  SEARCH_KEYWORD,
+  FILTER_ATTRIBUTE,
+  DEFAULT_LIMITATION,
+  DEFAULT_PAGINATION
+} from '../constants/filter'
+import { hideExpandBtn } from '../helper/expand-ui'
 import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
-
-async function requestQuery<TResponse>(
-  method: string,
-  path?: string
-): Promise<TResponse | undefined> {
-  try {
-    const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    if (response.ok) return await response.json()
-  } catch (error) {
-    console.error('Error when sending request:', error)
-  }
-}
-
-async function requestBody<TResponse>(
-  method: string,
-  data?: any,
-  path?: string
-): Promise<TResponse | undefined> {
-  try {
-    const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    if (response.ok) return await response.json()
-  } catch (error) {
-    console.error('Error when sending request:', error)
-  }
-}
+import { requestQuery, requestBody } from './common.service'
 
 /**
  * @class Service
  *
- * Manages the data of the application.
+ ** Manages the data of the application.
  */
 export class FoodService {
   public foods: Food[] = []
   private onFoodListChanged: (...args: any[]) => void = () => {}
-  public name: string = 'name='
-  public sort: string = 'orderby='
-  public limit: number = 9
-  public path: string = `?${this.name}&${this.sort}&page=1&limit=${9}`
+  public name: string = SEARCH_KEYWORD
+  public sort: string = FILTER_ATTRIBUTE
+  public limit: number = DEFAULT_LIMITATION
+  public page: number = DEFAULT_PAGINATION
+  public path: string = `?${this.name}&${this.sort}&page=${this.page}&limit=${this.limit}`
   constructor() {
     void this.loadFoods()
   }
@@ -66,7 +36,7 @@ export class FoodService {
   }
 
   private _updatePath(): void {
-    this.path = `?${this.name}&${this.sort}&page=1&limit=${this.limit}`
+    this.path = `?${this.name}&${this.sort}&page=${this.page}&limit=${this.limit}`
   }
 
   async loadFoods(): Promise<void> {
@@ -77,7 +47,7 @@ export class FoodService {
         this._commit(foodList)
       }
     } catch (error) {
-      console.error('Error loading foods:', error)
+      console.error('Error when loading foods:', error)
     }
   }
 
@@ -87,14 +57,24 @@ export class FoodService {
 
   async getFoodById(
     id: string,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
-    const currentFood = await requestQuery<Food>('GET', `/${id}`)
-    if (currentFood !== undefined) {
-      if (callbackList !== undefined) {
-        callbackList.forEach(item => {
-          const { callback, argument = undefined } = item
-          if (argument !== undefined) callback(...argument, currentFood)
+    try {
+      const currentFood = await requestQuery<Food>('GET', `/${id}`)
+      if (currentFood !== undefined) {
+        if (callbackList !== undefined) {
+          callbackList.forEach(item => {
+            const { callback, argument = undefined } = item
+            if (argument !== undefined) callback(...argument, currentFood)
+          })
+        }
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
         })
       }
     }
@@ -102,15 +82,28 @@ export class FoodService {
 
   async getFoodByName(
     name: string,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     this.name = name
+    this.page = DEFAULT_PAGINATION
     this._updatePath()
-    const foodByNameList = await requestQuery<Food[]>('GET', `${this.path}`)
-    if (foodByNameList !== undefined) {
-      this._commit(foodByNameList)
-      if (callbackList !== undefined) {
-        callbackList.forEach(item => {
+    try {
+      const foodByNameList = await requestQuery<Food[]>('GET', `${this.path}`)
+      if (foodByNameList !== undefined) {
+        this._commit(foodByNameList)
+        console.log(foodByNameList)
+        if (foodByNameList.length < DEFAULT_LIMITATION) hideExpandBtn()
+        if (callbackList !== undefined) {
+          callbackList.forEach(item => {
+            const { callback, argument } = item
+            if (argument !== undefined) callback(...argument)
+          })
+        }
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
           const { callback, argument } = item
           if (argument !== undefined) callback(...argument)
         })
@@ -120,15 +113,26 @@ export class FoodService {
 
   async sortFood(
     filter: string,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     this.sort = filter
+    this.page = DEFAULT_PAGINATION
     this._updatePath()
-    const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
-    if (filteredFoodList !== undefined) {
-      this._commit(filteredFoodList)
-      if (callbackList !== undefined) {
-        callbackList.forEach(item => {
+    try {
+      const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+      if (filteredFoodList !== undefined) {
+        this._commit(filteredFoodList)
+        if (callbackList !== undefined) {
+          callbackList.forEach(item => {
+            const { callback, argument } = item
+            if (argument !== undefined) callback(...argument)
+          })
+        }
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
           const { callback, argument } = item
           if (argument !== undefined) callback(...argument)
         })
@@ -137,20 +141,32 @@ export class FoodService {
   }
 
   async expandFood(
-    limit: number,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
-    this.limit += limit
+    this.page += DEFAULT_PAGINATION
     this._updatePath()
-    const expandedFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
-    if (expandedFoodList !== undefined) {
-      if (expandedFoodList.length > this.foods.length) {
-        this._commit(expandedFoodList)
-      } else {
-        this.limit -= limit
+    try {
+      const expandedFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+      if (expandedFoodList !== undefined) {
+        if (expandedFoodList.length === DEFAULT_LIMITATION) {
+          const updatedFoodlist = [...this.foods, ...expandedFoodList]
+          this._commit(updatedFoodlist)
+        } else {
+          const updatedFoodlist = [...this.foods, ...expandedFoodList]
+          this._commit(updatedFoodlist)
+          hideExpandBtn()
+        }
+        if (callbackList !== undefined) {
+          callbackList.forEach(item => {
+            const { callback, argument } = item
+            if (argument !== undefined) callback(...argument)
+          })
+        }
       }
-      if (callbackList !== undefined) {
-        callbackList.forEach(item => {
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
           const { callback, argument } = item
           if (argument !== undefined) callback(...argument)
         })
@@ -160,62 +176,95 @@ export class FoodService {
 
   async addFood(
     food: Omit<Food, 'id'>,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
-    const addedFood = await requestBody<Food>('POST', food)
-    if (addedFood !== undefined) {
-      const updatedFoodlist = await requestQuery<Food[]>('GET', `${this.path}`)
-      updatedFoodlist != null && this._commit(updatedFoodlist)
-    }
-    if (callbackList !== undefined) {
-      callbackList.forEach(item => {
-        const { callback, argument } = item
-        if (argument !== undefined) callback(...argument)
-      })
+    try {
+      const addedFood = await requestBody<Food>('POST', food)
+      if (addedFood !== undefined) {
+        const updatedFoodlist = await requestQuery<Food[]>(
+          'GET',
+          `${this.path}`
+        )
+        updatedFoodlist != null && this._commit(updatedFoodlist)
+      }
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
     }
   }
 
   async editFood(
     food: Food,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
-    const updatedFood = await requestBody<Food>('PUT', food, `${food.id}`)
-    if (updatedFood !== undefined) {
-      const updatedFoodlist = [...this.foods]
-      const updatedFoodIndex = updatedFoodlist.findIndex(
-        food => food.id === updatedFood.id
-      )
-      updatedFoodlist[updatedFoodIndex].id = updatedFood.id
-      updatedFoodlist[updatedFoodIndex].name = updatedFood.name
-      updatedFoodlist[updatedFoodIndex].price = updatedFood.price
-      updatedFoodlist[updatedFoodIndex].imageUrl = food.imageUrl
-      updatedFoodlist[updatedFoodIndex].quantity = food.quantity
-      this._commit(updatedFoodlist)
-    }
-    if (callbackList !== undefined) {
-      callbackList.forEach(item => {
-        const { callback, argument } = item
-        if (argument !== undefined) callback(...argument)
-      })
+    try {
+      const updatedFood = await requestBody<Food>('PUT', food, `${food.id}`)
+      if (updatedFood !== undefined) {
+        const updatedFoodlist = [...this.foods]
+        const updatedFoodIndex = updatedFoodlist.findIndex(
+          food => food.id === updatedFood.id
+        )
+        updatedFoodlist[updatedFoodIndex].id = updatedFood.id
+        updatedFoodlist[updatedFoodIndex].name = updatedFood.name
+        updatedFoodlist[updatedFoodIndex].price = updatedFood.price
+        updatedFoodlist[updatedFoodIndex].imageUrl = food.imageUrl
+        updatedFoodlist[updatedFoodIndex].quantity = food.quantity
+        this._commit(updatedFoodlist)
+      }
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
     }
   }
 
   async deleteFood(
     id: string,
-    callbackList: CallbackItem[] | undefined
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
-    const deletedFood = await requestQuery<Food>('DELETE', `${id}`)
-    if (deletedFood !== undefined) {
-      const updatedFoodlist = this.foods.filter(
-        food => food.id !== deletedFood.id
-      )
-      this._commit(updatedFoodlist)
-    }
-    if (callbackList !== undefined) {
-      callbackList.forEach(item => {
-        const { callback, argument } = item
-        if (argument !== undefined) callback(...argument)
-      })
+    try {
+      const deletedFood = await requestQuery<Food>('DELETE', `${id}`)
+      if (deletedFood !== undefined) {
+        const updatedFoodlist = this.foods.filter(
+          food => food.id !== deletedFood.id
+        )
+        this._commit(updatedFoodlist)
+      }
+      if (callbackList !== undefined) {
+        callbackList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
+    } catch (error) {
+      if (callbackErrorList !== undefined) {
+        callbackErrorList.forEach(item => {
+          const { callback, argument } = item
+          if (argument !== undefined) callback(...argument)
+        })
+      }
     }
   }
 }

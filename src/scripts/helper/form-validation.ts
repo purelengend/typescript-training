@@ -1,9 +1,9 @@
 import {
-  FOOD_IMG_WARNING_MSG,
   FOOD_NAME_WARNING_MSG,
   FOOD_PRICE_WARNING_MSG,
+  FOOD_IMG_WARNING_MSG,
   FOOD_QUANTITY_WARNING_MSG
-} from '../constants'
+} from '../constants/food'
 
 // import { type Food } from '../models/food.model'
 function isValidName(input: string): boolean {
@@ -55,126 +55,69 @@ function removeErrorElement(targetParent: HTMLElement): number {
   return 1
 }
 
-export const validateAddFood = (inputForm: HTMLFormElement): boolean => {
-  const formData = new FormData(inputForm)
-  let valid = 0
-  for (const item of formData) {
-    const target = document.getElementById(item[0]) as HTMLElement
-    const warningParagraph = document.createElement('p')
-    warningParagraph.classList.add('mutation-warning')
-    switch (item[0]) {
-      case 'food':
-        if (!isValidName(item[1] as string)) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_NAME_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
-        break
-      case 'price':
-        if (!isValidNumber(Number(item[1]))) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_PRICE_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
-        break
-      case 'image':
-        if (!isValidImageUrl(item[1] as string)) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_IMG_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
-        break
-      case 'quantity':
-        if (!isValidNumber(Number(item[1]))) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_QUANTITY_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
-        break
-      default:
-        break
-    }
-  }
+const validateField = <T>(
+  fieldName: string,
+  fieldValue: T,
+  validationFunction: (value: T) => boolean,
+  warningMessage: string
+): number => {
+  const target = document.getElementById(fieldName) as HTMLElement
+  const warningParagraph = document.createElement('p')
+  warningParagraph.classList.add('mutation-warning')
 
-  const totalInputAmount = Array.from(formData.entries()).length
-  return valid === totalInputAmount
+  if (!validationFunction(fieldValue)) {
+    appendErrorElement(
+      target,
+      target.parentNode as HTMLElement,
+      warningParagraph,
+      warningMessage
+    )
+    return 0
+  } else {
+    return removeErrorElement(target.parentNode as HTMLElement)
+  }
 }
 
-export const validateEditFood = (inputForm: HTMLFormElement): boolean => {
+export const validateForm = (inputForm: HTMLFormElement): boolean => {
   const formData = new FormData(inputForm)
-  let valid = 1
+  let valid = 0
+
   for (const item of formData) {
-    const target = document.getElementById(item[0]) as HTMLElement
-    const warningParagraph = document.createElement('p')
-    warningParagraph.classList.add('mutation-warning')
     switch (item[0]) {
-      case 'editname':
-        if (!isValidName(item[1] as string)) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_NAME_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
+      case 'food':
+        valid += validateField(
+          item[0],
+          item[1] as string,
+          isValidName,
+          FOOD_NAME_WARNING_MSG
+        )
         break
+      case 'price':
       case 'editprice':
-        if (!isValidNumber(Number(item[1]))) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_PRICE_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
+        valid += validateField(
+          item[0],
+          Number(item[1]),
+          isValidNumber,
+          FOOD_PRICE_WARNING_MSG
+        )
         break
+      case 'image':
       case 'editimage':
-        if (!isValidImageUrl(item[1] as string)) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_IMG_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
+        valid += validateField(
+          item[0],
+          item[1] as string,
+          isValidImageUrl,
+          FOOD_IMG_WARNING_MSG
+        )
         break
+      case 'quantity':
       case 'editquantity':
-        if (!isValidNumber(Number(item[1]))) {
-          appendErrorElement(
-            target,
-            target.parentNode as HTMLElement,
-            warningParagraph,
-            FOOD_QUANTITY_WARNING_MSG
-          )
-        } else {
-          valid += removeErrorElement(target.parentNode as HTMLElement)
-        }
+        valid += validateField(
+          item[0],
+          Number(item[1]),
+          isValidNumber,
+          FOOD_QUANTITY_WARNING_MSG
+        )
         break
       default:
         break

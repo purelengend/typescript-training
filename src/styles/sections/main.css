@@ -163,3 +163,10 @@
 .delete-btn:hover {
   cursor: pointer;
 }
+
+.empty-message {
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-md);
+}
