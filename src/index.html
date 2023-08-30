@@ -12,7 +12,7 @@
       <header class="header-container">
         <div class="d-flex header-main-wrapper">
           <a href="#">
-            <h1 class="header-brand">Foods Management</h1>
+            <h1 id="header" class="header-brand">Foods Management</h1>
           </a>
           <form class="d-flex search-form">
             <img
@@ -30,13 +30,11 @@
         </div>
         <div class="d-flex-center header-sub-wrapper">
           <select id="sort" class="sort-select">
-            <option disabled selected class="select-item">Sort by</option>
+            <option disabled selected class="select-item">Sort by price</option>
             <option class="select-item" value="orderby=">Default</option>
-            <option class="select-item" value="orderby=price">
-              DESC Price
-            </option>
+            <option class="select-item" value="orderby=price">Ascending</option>
             <option class="select-item" value="orderby=price&order=desc">
-              ASC Price
+              Descending
             </option>
           </select>
         </div>
@@ -86,7 +84,13 @@
             </button>
           </div> -->
         </div>
-        <button id="expand" class="d-flex-center expand-btn">SHOW MORE</button>
+        <button
+          id="expand"
+          type="button"
+          class="d-flex-center expand-btn"
+        >
+          SHOW MORE
+        </button>
       </main>
       <footer class="footer-container"></footer>
     </div>
@@ -212,9 +216,9 @@
       </div>
     </div>
     <div
-      id="toast-container"
+      id="toast-success"
       style="visibility: hidden"
-      class="d-flex toast-container"
+      class="d-flex toast-container success"
     >
       <div class="d-flex toast-message-wrapper">
         <img
@@ -222,7 +226,21 @@
           alt="Check Mark Icon"
           class="primary-icon"
         />
-        <p id="toast-message"></p>
+        <p id="toast-success-message"></p>
+      </div>
+    </div>
+    <div
+      id="toast-error"
+      style="visibility: hidden"
+      class="d-flex toast-container error"
+    >
+      <div class="d-flex toast-message-wrapper">
+        <img
+          src="./assets/icons/cross-icon.svg"
+          alt="Cross Mark Icon"
+          class="primary-icon error-icon"
+        />
+        <p id="toast-error-message"></p>
       </div>
     </div>
     <div

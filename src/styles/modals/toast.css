@@ -5,7 +5,6 @@
   top: 3%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--toast-bg);
   border-radius: var(--border-primary);
   padding: 13px 11px;
   z-index: 99;
@@ -13,9 +12,21 @@
   transition: all 0.3s ease-in-out;
 }
 
+.success {
+  background-color: var(--toast-bg);
+}
+
+.error {
+  background-color: var(--warning-color);
+}
+
 .toast-message-wrapper {
   color: var(--text-primary);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-lg);
   gap: 8px;
+}
+
+.error-icon {
+  padding-top: 4px;
 }

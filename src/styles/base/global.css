@@ -4,13 +4,14 @@
   --alternative-color: #634c51;
   --text-primary: #fff;
   --text-light: #abbbc2;
-  --text-warning: #f00;
+  --warning-color: #f00;
   --bg-primary: #252836;
   --bg-secondary: #1f1d2b;
   --base-form-bg: #2d303e;
   --base-dark-line: #393c49;
   --toast-bg: #4b965b;
   --modal-overlay: rgba(0, 0, 0, 0.3);
+  --box-shadow-primary: rgba(234, 124, 105, 0.4);
   /*width*/
   --layout-default-max-width: 1440px;
 
@@ -51,6 +52,7 @@ body {
   font-family: Barlow, sans-serif;
 }
 
+a,
 button {
   cursor: pointer;
 }

@@ -44,7 +44,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-md);
-  color: var(--text-warning);
+  color: var(--warning-color);
 }
 
 .half {

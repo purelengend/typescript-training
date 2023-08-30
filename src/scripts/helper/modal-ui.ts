@@ -1,4 +1,4 @@
-import { type FoodItem } from '../models/food.model'
+import { type Food } from '../models/food.model'
 
 export const closeModal = (selector: string): void => {
   const modal = document.getElementById(selector) as HTMLElement
@@ -26,7 +26,7 @@ export const resetForm = (selector: string): void => {
 export const openEditModalForm = (
   modalSelector: string,
   formSelector: string,
-  data: FoodItem
+  data: Food
 ): void => {
   const modal = document.getElementById(modalSelector) as HTMLElement
   const form = document.getElementById(formSelector) as HTMLFormElement
