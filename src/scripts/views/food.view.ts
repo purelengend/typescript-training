@@ -15,6 +15,9 @@ import {
 import { showErrorToast, showSuccessToast } from '../helper/toast-ui'
 import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
+import editIcon from '../../assets/icons/edit-icon.svg'
+import crossIcon from '../../assets/icons/cross-icon.svg'
+
 /**
  * @class View
  *
@@ -117,7 +120,7 @@ export class FoodView {
         const productCard = document.createElement('div')
         productCard.classList.add('d-flex-center', 'd-flex-col', 'product-card')
         productCard.innerHTML = ` <img
-          src="./assets/icons/cross-icon.svg"
+          src="${crossIcon}"
           alt="Cross Icon"
           class="secondary-icon delete-btn"
           data-id="${food.id}"
@@ -140,7 +143,7 @@ export class FoodView {
   
         <button class="d-flex-center product-mutation mutation" data-id="${food.id}">
           <img
-            src="./assets/icons/edit-icon.svg"
+            src="${editIcon}"
             alt="Edit Icon"
             class="primary-icon mutation"
             data-id="${food.id}"
