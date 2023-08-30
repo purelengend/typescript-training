@@ -7,11 +7,11 @@
 # Goals
 
 - Build a website that applies MVC pattern.
-- Apply knowledge HTML/CSS/JavaScript (with ES6 syntax)
+- Apply knowledge HTML/CSS/JavaScript (with ES6 syntax).
 - Get familiar with TypeScript language and understand the power of typed language.
 - Use DevTools for debugging issues.
 - DOM manipulation, form validation.
-- Understand how asynchronous code works
+- Understand how asynchronous code works.
 
 # Techstacks
 
@@ -31,6 +31,7 @@
 # Timeline
 
 - Estimate time: 48 hours (from August 18th to August 25th).
+- Actual time: 72 hours (from August 18th to August 30th).
 
 # Requirements
 
