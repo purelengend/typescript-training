@@ -4,7 +4,7 @@ import {
   DEFAULT_LIMITATION,
   DEFAULT_PAGINATION
 } from '../constants/filter'
-import { hideExpandBtn } from '../helper/expand-ui'
+import { hideExpandBtn, showExpandBtn } from '../helper/expand-ui'
 import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 import { requestQuery, requestBody } from './common.service'
@@ -44,6 +44,11 @@ export class FoodService {
       const foodList = await this.getAllFoods()
       if (foodList !== undefined) {
         this.foods = foodList
+        if (foodList.length < DEFAULT_LIMITATION) {
+          hideExpandBtn()
+        } else {
+          showExpandBtn()
+        }
         this._commit(foodList)
       }
     } catch (error) {
@@ -93,7 +98,11 @@ export class FoodService {
       if (foodByNameList !== undefined) {
         this._commit(foodByNameList)
         console.log(foodByNameList)
-        if (foodByNameList.length < DEFAULT_LIMITATION) hideExpandBtn()
+        if (foodByNameList.length < DEFAULT_LIMITATION) {
+          hideExpandBtn()
+        } else {
+          showExpandBtn()
+        }
         if (callbackList !== undefined) {
           callbackList.forEach(item => {
             const { callback, argument } = item
@@ -123,6 +132,11 @@ export class FoodService {
       const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
       if (filteredFoodList !== undefined) {
         this._commit(filteredFoodList)
+        if (filteredFoodList.length < DEFAULT_LIMITATION) {
+          hideExpandBtn()
+        } else {
+          showExpandBtn()
+        }
         if (callbackList !== undefined) {
           callbackList.forEach(item => {
             const { callback, argument } = item
@@ -152,6 +166,7 @@ export class FoodService {
         if (expandedFoodList.length === DEFAULT_LIMITATION) {
           const updatedFoodlist = [...this.foods, ...expandedFoodList]
           this._commit(updatedFoodlist)
+          showExpandBtn()
         } else {
           const updatedFoodlist = [...this.foods, ...expandedFoodList]
           this._commit(updatedFoodlist)
