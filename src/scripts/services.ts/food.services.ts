@@ -65,7 +65,7 @@ export class FoodService {
     try {
       const currentFood = await requestQuery<Food>('GET', `/${id}`)
       if (currentFood !== undefined) {
-        invokeCallback(callbackList)
+        invokeCallback(callbackList, currentFood)
       }
     } catch (error) {
       invokeCallback(callbackErrorList)

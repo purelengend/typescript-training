@@ -17,6 +17,7 @@ import { type CallbackItem } from '../models/callback.model'
 import { type Food } from '../models/food.model'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
+import { FormIndex } from '../constants/form'
 
 /**
  * @class View
@@ -215,7 +216,9 @@ export class FoodView {
           argument: [TOAST_ERROR_MSG, 2500]
         }
       ]
-      if (validateForm(this, 0)) handler(food, callbackList, callbackErrorList)
+      if (validateForm(this, FormIndex.Add)) {
+        handler(food, callbackList, callbackErrorList)
+      }
     })
   }
 
@@ -351,7 +354,7 @@ export class FoodView {
           argument: [TOAST_ERROR_MSG, 2500]
         }
       ]
-      if (validateForm(this, 1)) {
+      if (validateForm(this, FormIndex.Edit)) {
         handler(editFood, callbackList, callbackErrorList)
       }
     })
