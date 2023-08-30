@@ -78,13 +78,17 @@ const validateField = <T>(
   }
 }
 
-export const validateForm = (inputForm: HTMLFormElement): boolean => {
+export const validateForm = (
+  inputForm: HTMLFormElement,
+  initFieldIndex: number
+): boolean => {
   const formData = new FormData(inputForm)
-  let valid = 0
+  let valid = initFieldIndex
 
   for (const item of formData) {
     switch (item[0]) {
       case 'food':
+      case 'editname':
         valid += validateField(
           item[0],
           item[1] as string,

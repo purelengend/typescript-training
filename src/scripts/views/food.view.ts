@@ -215,7 +215,7 @@ export class FoodView {
           argument: [TOAST_ERROR_MSG, 2500]
         }
       ]
-      if (validateForm(this)) handler(food, callbackList, callbackErrorList)
+      if (validateForm(this, 0)) handler(food, callbackList, callbackErrorList)
     })
   }
 
@@ -351,7 +351,7 @@ export class FoodView {
           argument: [TOAST_ERROR_MSG, 2500]
         }
       ]
-      if (validateForm(this)) {
+      if (validateForm(this, 1)) {
         handler(editFood, callbackList, callbackErrorList)
       }
     })

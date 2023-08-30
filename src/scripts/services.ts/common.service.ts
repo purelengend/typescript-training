@@ -1,4 +1,6 @@
 import { BASE_URL, RESOURCE } from '../constants/api'
+import { type CallbackItem } from '../models/callback.model'
+import { type Food } from '../models/food.model'
 
 export async function requestQuery<TResponse>(
   method: string,
@@ -30,4 +32,16 @@ export async function requestBody<TResponse>(
   })
   if (response.ok) return await response.json()
   else throw new Error()
+}
+
+export function invokeCallback(
+  callbackList: CallbackItem[] | undefined,
+  optionalArgument?: Food
+): void {
+  if (callbackList !== undefined) {
+    callbackList.forEach(item => {
+      const { callback, argument } = item
+      if (argument !== undefined) callback(...argument, optionalArgument)
+    })
+  }
 }
