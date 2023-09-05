@@ -1,6 +1,6 @@
 import { BASE_URL, RESOURCE } from '../constants/api'
-import { type CallbackItem } from '../models/callback.model'
-import { type Food } from '../models/food.model'
+import { type CallbackItem } from '../types/callback.type'
+import { type Food } from '../types/food.type'
 
 export async function requestQuery<TResponse>(
   method: string,

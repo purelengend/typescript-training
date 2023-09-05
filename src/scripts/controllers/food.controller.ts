@@ -1,6 +1,6 @@
-import { type CallbackItem } from '../models/callback.model'
-import { type Food } from '../models/food.model'
-import { type FoodService } from '../services.ts/food.services'
+import { type CallbackItem } from '../types/callback.type'
+import { type Food } from '../types/food.type'
+import { type FoodModel } from '../models/food.model'
 import { type FoodView } from '../views/food.view'
 
 /**
@@ -8,16 +8,16 @@ import { type FoodView } from '../views/food.view'
  *
  * Links the food input and the view output.
  *
- * @param foodService
+ * @param FoodModel
  * @param foodView
  */
 export class FoodController {
   constructor(
-    public readonly foodService: FoodService,
+    public readonly FoodModel: FoodModel,
     public readonly foodView: FoodView
   ) {
-    // this.onFoodListChanged(this.foodService.foods)
-    this.foodService.bindFoodListChanged(this.onFoodListChanged)
+    // this.onFoodListChanged(this.FoodModel.foods)
+    this.FoodModel.bindFoodListChanged(this.onFoodListChanged)
     this.foodView.bindAddFood(this.handleAddFood)
     this.foodView.bindDeleteFood(this.handleDeleteFood)
     this.foodView.bindEditForm(this.handleGetFoodById)
@@ -38,7 +38,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.addFood(food, callbackList, callbackErrorList)
+    void this.FoodModel.addFood(food, callbackList, callbackErrorList)
   }
 
   handleDeleteFood = (
@@ -47,7 +47,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.deleteFood(id, callbackList, callbackErrorList)
+    void this.FoodModel.deleteFood(id, callbackList, callbackErrorList)
   }
 
   handleGetFoodById = (
@@ -56,7 +56,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.getFoodById(id, callbackList, callbackErrorList)
+    void this.FoodModel.getFoodById(id, callbackList, callbackErrorList)
   }
 
   handleEditFood = (
@@ -65,7 +65,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.editFood(food, callbackList, callbackErrorList)
+    void this.FoodModel.editFood(food, callbackList, callbackErrorList)
   }
 
   handleGetFoodByName = (
@@ -74,7 +74,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.getFoodByName(name, callbackList, callbackErrorList)
+    void this.FoodModel.getFoodByName(name, callbackList, callbackErrorList)
   }
 
   handleSortFood = (
@@ -83,7 +83,7 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.sortFood(filter, callbackList, callbackErrorList)
+    void this.FoodModel.sortFood(filter, callbackList, callbackErrorList)
   }
 
   handleExpandFood = (
@@ -91,6 +91,6 @@ export class FoodController {
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.foodService.expandFood(callbackList, callbackErrorList)
+    void this.FoodModel.expandFood(callbackList, callbackErrorList)
   }
 }

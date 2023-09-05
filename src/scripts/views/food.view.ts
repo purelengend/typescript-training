@@ -13,8 +13,8 @@ import {
   resetForm
 } from '../helper/modal-ui'
 import { showErrorToast, showSuccessToast } from '../helper/toast-ui'
-import { type CallbackItem } from '../models/callback.model'
-import { type Food } from '../models/food.model'
+import { type CallbackItem } from '../types/callback.type'
+import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
 import { FormIndex } from '../constants/form'

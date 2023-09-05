@@ -1,6 +1,6 @@
 import { FoodController } from './controllers/food.controller'
-import { FoodService } from './services.ts/food.services'
+import { FoodModel } from './models/food.model'
 import { FoodView } from './views/food.view'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-new
-new FoodController(new FoodService(), new FoodView())
+new FoodController(new FoodModel(), new FoodView())

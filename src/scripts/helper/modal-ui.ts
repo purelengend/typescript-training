@@ -1,4 +1,4 @@
-import { type Food } from '../models/food.model'
+import { type Food } from '../types/food.type'
 
 export const closeModal = (selector: string): void => {
   const modal = document.getElementById(selector) as HTMLElement
