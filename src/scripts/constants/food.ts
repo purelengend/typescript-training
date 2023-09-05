@@ -6,4 +6,5 @@ export const FOOD_IMG_WARNING_MSG =
   'The food image URL cannot be empty and must be in the right format'
 export const FOOD_QUANTITY_WARNING_MSG =
   'The food quantity cannot be empty and must be an integer that greater than 0'
-export const EMPTY_MSG = 'There are currently no foods in database.'
+export const EMPTY_MSG =
+  'Oops! It looks like there are no food items available at the moment.'

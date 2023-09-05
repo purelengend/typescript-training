@@ -169,4 +169,6 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-md);
+  margin: 0 auto;
+  align-items: center;
 }

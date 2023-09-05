@@ -158,7 +158,7 @@ export class FoodView {
       })
     } else {
       const emptyMessage = document.createElement('div')
-      emptyMessage.classList.add('empty-message')
+      emptyMessage.classList.add('d-flex', 'empty-message')
       emptyMessage.textContent = EMPTY_MSG
       this.foodList.append(emptyMessage)
     }
