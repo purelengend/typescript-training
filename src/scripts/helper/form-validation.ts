@@ -15,7 +15,7 @@ function isValidNumber(input: number): boolean {
 }
 
 function isValidInteger(input: number): boolean {
-  return Number.isInteger(input)
+  return Number.isInteger(input) && input > 0
 }
 
 function isValidImageUrl(url: string): boolean {
