@@ -14,6 +14,10 @@ function isValidNumber(input: number): boolean {
   return input > 0
 }
 
+function isValidInteger(input: number): boolean {
+  return Number.isInteger(input)
+}
+
 function isValidImageUrl(url: string): boolean {
   const imageExtensions = [
     'jpg',
@@ -119,7 +123,7 @@ export const validateForm = (
         valid += validateField(
           item[0],
           Number(item[1]),
-          isValidNumber,
+          isValidInteger,
           FOOD_QUANTITY_WARNING_MSG
         )
         break
@@ -130,4 +134,11 @@ export const validateForm = (
 
   const totalInputAmount = Array.from(formData.entries()).length
   return valid === totalInputAmount
+}
+
+export const clearErrorMessages = (): void => {
+  const errorMessages = document.querySelectorAll('.mutation-warning')
+  errorMessages.forEach(message => {
+    message.remove()
+  })
 }

@@ -5,7 +5,7 @@ import {
   TOAST_EDIT_MSG,
   TOAST_ERROR_MSG
 } from '../constants/toast'
-import { validateForm } from '../helper/form-validation'
+import { clearErrorMessages, validateForm } from '../helper/form-validation'
 import {
   closeModal,
   openDeleteModal,
@@ -73,6 +73,7 @@ export class FoodView {
 
     this.closeAddBtn.addEventListener('click', () => {
       this.addModal.style.display = 'none'
+      clearErrorMessages()
       resetForm('add-form')
     })
 
@@ -82,6 +83,7 @@ export class FoodView {
 
     this.closeEditBtn.addEventListener('click', () => {
       this.editModal.style.display = 'none'
+      clearErrorMessages()
       resetForm('edit-form')
     })
 
