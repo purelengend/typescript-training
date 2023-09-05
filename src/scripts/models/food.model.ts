@@ -11,7 +11,7 @@ import {
   requestQuery,
   requestBody,
   invokeCallback
-} from '../services.ts/common.service'
+} from '../services/common.service'
 
 /**
  * @class Service
