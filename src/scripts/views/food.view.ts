@@ -63,10 +63,10 @@ export class FoodView {
     this.loadingModal = this.getElement('#loading-modal')
     this.header = this.getElement('#header')
 
-    this._initEventListenter()
+    this._initEventListener()
   }
 
-  _initEventListenter = (): void => {
+  _initEventListener = (): void => {
     this.addCard.addEventListener('click', () => {
       this.addModal.style.display = 'inline-flex'
     })
