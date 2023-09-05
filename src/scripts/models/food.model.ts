@@ -4,7 +4,7 @@ import {
   DEFAULT_LIMITATION,
   DEFAULT_PAGINATION
 } from '../constants/filter'
-import { hideBtn, showBtn } from '../helper/btn-ui'
+import { hideBtn, showBtn } from '../helpers/btn-ui'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import {

@@ -5,7 +5,6 @@ import {
   FOOD_QUANTITY_WARNING_MSG
 } from '../constants/food'
 
-// import { type Food } from '../models/food.model'
 function isValidName(input: string): boolean {
   return input.length !== 0 && !/^\s| {2,}|\s$/.test(input)
 }
@@ -92,7 +91,7 @@ export const validateForm = (
   for (const item of formData) {
     switch (item[0]) {
       case 'food':
-      case 'editname':
+      case 'edit-name':
         valid += validateField(
           item[0],
           item[1] as string,
@@ -101,7 +100,7 @@ export const validateForm = (
         )
         break
       case 'price':
-      case 'editprice':
+      case 'edit-price':
         valid += validateField(
           item[0],
           Number(item[1]),
@@ -110,7 +109,7 @@ export const validateForm = (
         )
         break
       case 'image':
-      case 'editimage':
+      case 'edit-image':
         valid += validateField(
           item[0],
           item[1] as string,
@@ -119,7 +118,7 @@ export const validateForm = (
         )
         break
       case 'quantity':
-      case 'editquantity':
+      case 'edit-quantity':
         valid += validateField(
           item[0],
           Number(item[1]),

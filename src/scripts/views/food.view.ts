@@ -5,14 +5,14 @@ import {
   TOAST_EDIT_MSG,
   TOAST_ERROR_MSG
 } from '../constants/toast'
-import { clearErrorMessages, validateForm } from '../helper/form-validation'
+import { clearErrorMessages, validateForm } from '../helpers/form-validation'
 import {
   closeModal,
   openDeleteModal,
   openEditModalForm,
   resetForm
-} from '../helper/modal-ui'
-import { showErrorToast, showSuccessToast } from '../helper/toast-ui'
+} from '../helpers/modal-ui'
+import { showErrorToast, showSuccessToast } from '../helpers/toast-ui'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
@@ -322,11 +322,11 @@ export class FoodView {
     this.editForm.addEventListener('submit', function (e) {
       e.preventDefault()
       const editFood: Food = {
-        id: this.editid.value,
-        name: this.editname.value,
-        price: Number(this.editprice.value),
-        imageUrl: this.editimage.value,
-        quantity: Number(this.editquantity.value)
+        id: this['edit-id'].value,
+        name: this['edit-name'].value,
+        price: Number(this['edit-price'].value),
+        imageUrl: this['edit-image'].value,
+        quantity: Number(this['edit-quantity'].value)
       }
       const callbackList: CallbackItem[] = [
         {

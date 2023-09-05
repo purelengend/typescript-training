@@ -31,7 +31,7 @@
 # Timeline
 
 - Estimate time: 48 hours (from August 18th to August 25th).
-- Actual time: 72 hours (from August 18th to August 30th).
+- Actual time: 64 hours (from August 18th to August 30th).
 
 # Requirements
 
