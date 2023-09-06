@@ -18,6 +18,7 @@ import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
 import { FormIndex } from '../constants/form'
+import { productTemplate } from '../templates/product-card'
 
 /**
  * @class View
@@ -122,37 +123,7 @@ export class FoodView {
         // Create nodes
         const productCard = document.createElement('div')
         productCard.classList.add('d-flex-center', 'd-flex-col', 'product-card')
-        productCard.innerHTML = ` <img
-          src="${crossIcon}"
-          alt="Cross Icon"
-          class="secondary-icon delete-btn"
-          data-id="${food.id}"
-        />
-        <div class="d-flex-col product-wrapper">
-          <img
-            src="${food.imageUrl}"
-            alt="${food.name}"
-            class="primary-product"
-          />
-          <div class="d-flex-col product-content-wrapper">
-            <p class="product-name">${food.name}</p>
-            <div class="d-flex-center product-detail">
-              $ ${food.price}
-              <div class="separate"></div>
-              ${food.quantity} Bowls
-            </div>
-          </div>
-        </div>
-  
-        <button class="d-flex-center product-mutation mutation" data-id="${food.id}">
-          <img
-            src="${editIcon}"
-            alt="Edit Icon"
-            class="primary-icon mutation"
-            data-id="${food.id}"
-          />
-          <p class="mutation-content mutation" data-id="${food.id}">Edit dish</p>
-        </button>`
+        productCard.innerHTML = productTemplate(crossIcon, editIcon, food)
         // Append nodes
         this.foodList.append(productCard)
       })
