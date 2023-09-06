@@ -1,10 +1,14 @@
 import { type Food } from '../types/food.type'
 
-export const closeModal = (selector: string): void => {
-  const modal = document.getElementById(selector) as HTMLElement
-  modal.style.display = 'none'
-}
-
+/**
+ * @function openDeleteModal
+ *
+ * Open the delete modal which contains the hidden id field.
+ *
+ * @param modalSelector
+ * @param hiddenSelector
+ * @param id
+ */
 export const openDeleteModal = (
   modalSelector: string,
   hiddenSelector: string,
@@ -18,11 +22,27 @@ export const openDeleteModal = (
   hiddenField.value = id
 }
 
-export const resetForm = (selector: string): void => {
-  const form = document.getElementById(selector) as HTMLFormElement
+/**
+ * @function resetForm
+ *
+ * Clear value of all fields of the input form selector.
+ *
+ * @param selector
+ */
+export const resetForm = (formSelector: string): void => {
+  const form = document.getElementById(formSelector) as HTMLFormElement
   form.reset()
 }
 
+/**
+ * @function openEditModalForm
+ *
+ * Open the edit modal and fill all fields with input data.
+ *
+ * @param modalSelector
+ * @param formSelector
+ * @param data
+ */
 export const openEditModalForm = (
   modalSelector: string,
   formSelector: string,

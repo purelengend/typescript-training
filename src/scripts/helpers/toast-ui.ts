@@ -1,3 +1,12 @@
+/**
+ * @function showToast
+ *
+ * Show the toast base on the input toast type with the input message and input display time.
+ *
+ * @param message
+ * @param displayTime
+ * @param type
+ */
 export const showToast = (
   message: string,
   displayTime: number = 2500,

@@ -1,8 +1,15 @@
 import { BASE_URL, RESOURCE } from '../constants/api'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
-
-export async function requestQuery<TResponse>(
+/**
+ * @function request
+ *
+ * Make request with input method and input query path to the server.
+ *
+ * @param method
+ * @param path - optional
+ */
+export async function request<TResponse>(
   method: string,
   path?: string
 ): Promise<TResponse | undefined> {
@@ -17,7 +24,16 @@ export async function requestQuery<TResponse>(
   else throw new Error()
 }
 
-export async function requestBody<TResponse>(
+/**
+ * @function requestWithBody
+ *
+ * Make a request with input method, input query path and input data of the body to the server.
+ *
+ * @param method
+ * @param data - optional
+ * @param path - optional
+ */
+export async function requestWithBody<TResponse>(
   method: string,
   data?: any,
   path?: string

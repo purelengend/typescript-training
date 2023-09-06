@@ -8,7 +8,6 @@ import {
 } from '../constants/toast'
 import { clearErrorMessages, validateForm } from '../helpers/form-validation'
 import {
-  closeModal,
   openDeleteModal,
   openEditModalForm,
   resetForm
@@ -20,9 +19,10 @@ import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
 import { FormIndex } from '../constants/form'
 import { productTemplate } from '../templates/product-card'
+import { hideElementById } from '../helpers/dom-element-ui'
 
 /**
- * @class View
+ * @class FoodView
  *
  * Visual representation of the model.
  */
@@ -155,11 +155,11 @@ export class FoodView {
 
       const callbackList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['add-modal']
         },
         {
@@ -174,11 +174,11 @@ export class FoodView {
 
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['add-modal']
         },
         {
@@ -217,11 +217,11 @@ export class FoodView {
       e.preventDefault()
       const callbackList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['delete-modal']
         },
         {
@@ -231,11 +231,11 @@ export class FoodView {
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['delete-modal']
         },
         {
@@ -260,7 +260,7 @@ export class FoodView {
         if (target.dataset.id !== undefined) {
           const callbackList: CallbackItem[] = [
             {
-              callback: closeModal,
+              callback: hideElementById,
               argument: ['loading-modal']
             },
             {
@@ -270,7 +270,7 @@ export class FoodView {
           ]
           const callbackErrorList: CallbackItem[] = [
             {
-              callback: closeModal,
+              callback: hideElementById,
               argument: ['loading-modal']
             },
             {
@@ -302,11 +302,11 @@ export class FoodView {
       }
       const callbackList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['edit-modal']
         },
         {
@@ -316,11 +316,11 @@ export class FoodView {
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['edit-modal']
         },
         {
@@ -346,13 +346,13 @@ export class FoodView {
         e.preventDefault()
         const callbackList: CallbackItem[] = [
           {
-            callback: closeModal,
+            callback: hideElementById,
             argument: ['loading-modal']
           }
         ]
         const callbackErrorList: CallbackItem[] = [
           {
-            callback: closeModal,
+            callback: hideElementById,
             argument: ['loading-modal']
           },
           {
@@ -375,13 +375,13 @@ export class FoodView {
     this.sort.addEventListener('change', function () {
       const callbackList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         }
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {
@@ -402,13 +402,13 @@ export class FoodView {
     this.expand.addEventListener('click', function () {
       const callbackList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         }
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: closeModal,
+          callback: hideElementById,
           argument: ['loading-modal']
         },
         {

@@ -8,13 +8,13 @@ import { hideElementById, showElementById } from '../helpers/dom-element-ui'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import {
-  requestQuery,
-  requestBody,
+  request,
+  requestWithBody,
   invokeCallback
 } from '../services/common.service'
 
 /**
- * @class Service
+ * @class FoodModel
  *
  ** Manages the data of the application.
  */
@@ -51,7 +51,7 @@ export class FoodModel {
 
   async loadFoods(): Promise<void> {
     try {
-      const foodList = await requestQuery<Food[]>('GET', this.path)
+      const foodList = await request<Food[]>('GET', this.path)
       if (foodList !== undefined) {
         this.foods = foodList
         this._commitAndCheckExpand(foodList)
@@ -67,7 +67,7 @@ export class FoodModel {
     callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     try {
-      const currentFood = await requestQuery<Food>('GET', `/${id}`)
+      const currentFood = await request<Food>('GET', `/${id}`)
       if (currentFood !== undefined) {
         invokeCallback(callbackList, currentFood)
       }
@@ -85,7 +85,7 @@ export class FoodModel {
     this.page = DEFAULT_PAGINATION
     this._updatePath()
     try {
-      const foodByNameList = await requestQuery<Food[]>('GET', `${this.path}`)
+      const foodByNameList = await request<Food[]>('GET', `${this.path}`)
       if (foodByNameList !== undefined) {
         this._commitAndCheckExpand(foodByNameList)
         invokeCallback(callbackList)
@@ -104,7 +104,7 @@ export class FoodModel {
     this.page = DEFAULT_PAGINATION
     this._updatePath()
     try {
-      const filteredFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+      const filteredFoodList = await request<Food[]>('GET', `${this.path}`)
       if (filteredFoodList !== undefined) {
         this._commitAndCheckExpand(filteredFoodList)
         invokeCallback(callbackList)
@@ -121,7 +121,7 @@ export class FoodModel {
     this.page += DEFAULT_PAGINATION
     this._updatePath()
     try {
-      const expandedFoodList = await requestQuery<Food[]>('GET', `${this.path}`)
+      const expandedFoodList = await request<Food[]>('GET', `${this.path}`)
       if (expandedFoodList !== undefined) {
         const updatedFoodlist = [...this.foods, ...expandedFoodList]
         this._commitAndCheckExpand(updatedFoodlist)
@@ -141,14 +141,11 @@ export class FoodModel {
     callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     try {
-      const addedFood = await requestBody<Food>('POST', food)
+      const addedFood = await requestWithBody<Food>('POST', food)
       if (addedFood !== undefined) {
         this.page = DEFAULT_PAGINATION
         this._updatePath()
-        const updatedFoodlist = await requestQuery<Food[]>(
-          'GET',
-          `${this.path}`
-        )
+        const updatedFoodlist = await request<Food[]>('GET', `${this.path}`)
         if (updatedFoodlist != null) {
           this._commitAndCheckExpand(updatedFoodlist)
         }
@@ -165,7 +162,7 @@ export class FoodModel {
     callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     try {
-      const updatedFood = await requestBody<Food>('PUT', food, `${food.id}`)
+      const updatedFood = await requestWithBody<Food>('PUT', food, `${food.id}`)
       if (updatedFood !== undefined) {
         const updatedFoodlist = [...this.foods]
         const updatedFoodIndex = updatedFoodlist.findIndex(
@@ -190,14 +187,11 @@ export class FoodModel {
     callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     try {
-      const deletedFood = await requestQuery<Food>('DELETE', `${id}`)
+      const deletedFood = await request<Food>('DELETE', `${id}`)
       if (deletedFood !== undefined) {
         this.page = DEFAULT_PAGINATION
         this._updatePath()
-        const updatedFoodlist = await requestQuery<Food[]>(
-          'GET',
-          `${this.path}`
-        )
+        const updatedFoodlist = await request<Food[]>('GET', `${this.path}`)
         if (updatedFoodlist != null) {
           this._commitAndCheckExpand(updatedFoodlist)
         }

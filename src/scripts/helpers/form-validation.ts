@@ -5,18 +5,53 @@ import {
   FOOD_QUANTITY_WARNING_MSG
 } from '../constants/food'
 
+/**
+ * @function isValidName
+ *
+ * Check if the input string contains two trailing spaces consecutive or trailing spaces at the begin/end of the name.
+ *
+ * @param input
+ */
 function isValidName(input: string): boolean {
   return input.length !== 0 && !/^\s| {2,}|\s$/.test(input)
 }
 
+/**
+ * @function isValidNumber
+ *
+ * Check if the input number is greater than 0.
+ *
+ * @param input
+ */
 function isValidNumber(input: number): boolean {
   return input > 0
 }
 
+/**
+ * @function isValidInteger
+ *
+ * Check if the input number is an integer and greater than 0.
+ *
+ * @param input
+ */
 function isValidInteger(input: number): boolean {
   return Number.isInteger(input) && input > 0
 }
 
+/**
+ * @function isValidImageUrl
+ *
+ * Check if the input image url is a valid URL with supported format extensions: 'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'bmp',
+    'svg',
+    'webp',
+    'q=80'.
+ *
+ * @param input
+ */
 function isValidImageUrl(url: string): boolean {
   const imageExtensions = [
     'jpg',
@@ -36,6 +71,17 @@ function isValidImageUrl(url: string): boolean {
   )
 }
 
+/**
+ * @function appendErrorElement
+ *
+ * Append the error DOM element with input message next to the input target DOM.
+ * The input parent param of the input target DOM is necessary to check whether there is already an error DOM element.
+ *
+ * @param target
+ * @param parent
+ * @param element
+ * @param message
+ */
 function appendErrorElement(
   target: HTMLElement,
   parent: HTMLElement,
@@ -50,6 +96,14 @@ function appendErrorElement(
   return false
 }
 
+/**
+ * @function removeErrorElement
+ *
+ * Remove the error DOM element of the target parent DOM.
+ *
+ * @param targetParent
+ */
+
 function removeErrorElement(targetParent: HTMLElement): number {
   const lastChild = targetParent.lastElementChild as HTMLElement
   if (lastChild.classList.contains('mutation-warning')) {
@@ -58,6 +112,16 @@ function removeErrorElement(targetParent: HTMLElement): number {
   return 1
 }
 
+/**
+ * @function validateField
+ *
+ * Validate the input field value with the input validation function and append error DOM element if the value is not valid, otherwise remove the error element.
+ *
+ * @param fieldName
+ * @param fieldValue
+ * @param validationFunction
+ * @param warningMessage
+ */
 const validateField = <T>(
   fieldName: string,
   fieldValue: T,
@@ -81,6 +145,14 @@ const validateField = <T>(
   }
 }
 
+/**
+ * @function validateField
+ *
+ * Validate all fields of the input form. Return true if all fields are valid, otherwise return false.
+ *
+ * @param inputForm
+ * @param initFieldIndex
+ */
 export const validateForm = (
   inputForm: HTMLFormElement,
   initFieldIndex: number
