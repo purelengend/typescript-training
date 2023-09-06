@@ -22,11 +22,11 @@
 
 # Development Tools
 
-- Eslint
-- Prettier
-- Lint-staged
-- Husky
-- Commitlint
+- [Eslint](https://eslint.org/docs/latest/)
+- [Prettier](https://prettier.io/docs/en/)
+- [Lint-staged](https://github.com/okonet/lint-staged)
+- [Husky](https://github.com/typicode/husky)
+- [Commitlint]('https://commitlint.js.org/#/)
 
 # Timeline
 
