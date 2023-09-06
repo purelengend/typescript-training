@@ -26,7 +26,7 @@
 - [Prettier](https://prettier.io/docs/en/)
 - [Lint-staged](https://github.com/okonet/lint-staged)
 - [Husky](https://github.com/typicode/husky)
-- [Commitlint]('https://commitlint.js.org/#/)
+- [Commitlint](https://commitlint.js.org/#/)
 
 # Timeline
 
