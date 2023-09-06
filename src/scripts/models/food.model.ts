@@ -125,8 +125,9 @@ export class FoodModel {
       if (expandedFoodList !== undefined) {
         const updatedFoodlist = [...this.foods, ...expandedFoodList]
         this._commitAndCheckExpand(updatedFoodlist)
-        if (expandedFoodList.length < DEFAULT_LIMITATION)
+        if (expandedFoodList.length < DEFAULT_LIMITATION) {
           hideElementById('expand')
+        }
         invokeCallback(callbackList)
       }
     } catch (error) {

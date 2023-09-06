@@ -6,7 +6,7 @@ export async function requestQuery<TResponse>(
   method: string,
   path?: string
 ): Promise<TResponse | undefined> {
-  const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
+  const response = await fetch(`${BASE_URL}${RESOURCE.food}${path ?? ''}`, {
     method,
     headers: {
       Accept: 'application/json',
@@ -22,7 +22,7 @@ export async function requestBody<TResponse>(
   data?: any,
   path?: string
 ): Promise<TResponse | undefined> {
-  const response = await fetch(`${BASE_URL}${RESOURCE}${path ?? ''}`, {
+  const response = await fetch(`${BASE_URL}${RESOURCE.food}${path ?? ''}`, {
     method,
     headers: {
       Accept: 'application/json',
