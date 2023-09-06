@@ -3,7 +3,8 @@ import {
   TOAST_ADD_MSG,
   TOAST_DELETE_MSG,
   TOAST_EDIT_MSG,
-  TOAST_ERROR_MSG
+  TOAST_ERROR_MSG,
+  Toast
 } from '../constants/toast'
 import { clearErrorMessages, validateForm } from '../helpers/form-validation'
 import {
@@ -12,7 +13,7 @@ import {
   openEditModalForm,
   resetForm
 } from '../helpers/modal-ui'
-import { showErrorToast, showSuccessToast } from '../helpers/toast-ui'
+import { showToast } from '../helpers/toast-ui'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
@@ -166,8 +167,8 @@ export class FoodView {
           argument: ['add-form']
         },
         {
-          callback: showSuccessToast,
-          argument: [TOAST_ADD_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ADD_MSG, 2500, Toast.Success]
         }
       ]
 
@@ -185,8 +186,8 @@ export class FoodView {
           argument: ['add-form']
         },
         {
-          callback: showErrorToast,
-          argument: [TOAST_ERROR_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
       if (validateForm(this, FormIndex.Add)) {
@@ -224,8 +225,8 @@ export class FoodView {
           argument: ['delete-modal']
         },
         {
-          callback: showSuccessToast,
-          argument: [TOAST_DELETE_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_DELETE_MSG, 2500, Toast.Success]
         }
       ]
       const callbackErrorList: CallbackItem[] = [
@@ -238,8 +239,8 @@ export class FoodView {
           argument: ['delete-modal']
         },
         {
-          callback: showErrorToast,
-          argument: [TOAST_ERROR_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
       handler(this['hidden-delete-id'].value, callbackList, callbackErrorList)
@@ -273,8 +274,8 @@ export class FoodView {
               argument: ['loading-modal']
             },
             {
-              callback: showErrorToast,
-              argument: [TOAST_ERROR_MSG, 2500]
+              callback: showToast,
+              argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
             }
           ]
           handler(target.dataset.id, callbackList, callbackErrorList)
@@ -309,8 +310,8 @@ export class FoodView {
           argument: ['edit-modal']
         },
         {
-          callback: showSuccessToast,
-          argument: [TOAST_EDIT_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_EDIT_MSG, 2500, Toast.Success]
         }
       ]
       const callbackErrorList: CallbackItem[] = [
@@ -323,8 +324,8 @@ export class FoodView {
           argument: ['edit-modal']
         },
         {
-          callback: showErrorToast,
-          argument: [TOAST_ERROR_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
       if (validateForm(this, FormIndex.Edit)) {
@@ -355,8 +356,8 @@ export class FoodView {
             argument: ['loading-modal']
           },
           {
-            callback: showErrorToast,
-            argument: [TOAST_ERROR_MSG, 2500]
+            callback: showToast,
+            argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
           }
         ]
         handler(`name=${this.value}`, callbackList, callbackErrorList)
@@ -384,8 +385,8 @@ export class FoodView {
           argument: ['loading-modal']
         },
         {
-          callback: showErrorToast,
-          argument: [TOAST_ERROR_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
       handler(this.value, callbackList, callbackErrorList)
@@ -411,8 +412,8 @@ export class FoodView {
           argument: ['loading-modal']
         },
         {
-          callback: showErrorToast,
-          argument: [TOAST_ERROR_MSG, 2500]
+          callback: showToast,
+          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
       handler(callbackList, callbackErrorList)

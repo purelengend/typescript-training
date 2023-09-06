@@ -1,3 +1,7 @@
+export enum Toast {
+  Success = 'success',
+  Error = 'error'
+}
 export const TOAST_TIME = 2500
 export const TOAST_ADD_MSG = 'Add sucessfully!'
 export const TOAST_DELETE_MSG = 'Delete sucessfully!'
