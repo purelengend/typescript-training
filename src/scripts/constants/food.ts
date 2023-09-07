@@ -8,3 +8,4 @@ export const FOOD_QUANTITY_WARNING_MSG =
   'The food quantity cannot be empty and must be an integer that greater than 0'
 export const EMPTY_MSG =
   'Oops! It looks like there are no food items available at the moment.'
+export const DEFAULT_FOOD_ID_VALUE = ''

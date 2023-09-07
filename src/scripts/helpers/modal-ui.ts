@@ -51,9 +51,10 @@ export const openEditModalForm = (
   const modal = document.getElementById(modalSelector) as HTMLElement
   const form = document.getElementById(formSelector) as HTMLFormElement
   modal.style.display = 'inline-flex'
-  form['edit-id'].value = data.id
-  form['edit-name'].value = data.name
-  form['edit-price'].value = data.price
-  form['edit-image'].value = data.imageUrl
-  form['edit-quantity'].value = data.quantity
+  form['food-id'].value = data.id
+  form.food.value = data.name
+  form.price.value = data.price
+  form.image.value = data.imageUrl
+  form.quantity.value = data.quantity
+  form['created-at'].value = data.createdAt
 }

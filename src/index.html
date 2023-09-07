@@ -34,7 +34,9 @@
         <div class="d-flex-center header-sub-wrapper">
           <select id="sort" class="sort-select">
             <option disabled selected class="select-item">Sort by price</option>
-            <option class="select-item" value="orderby=">Default</option>
+            <option class="select-item" value="orderby=createdAt&order=desc">
+              Default
+            </option>
             <option class="select-item" value="orderby=price">Ascending</option>
             <option class="select-item" value="orderby=price&order=desc">
               Descending
@@ -81,7 +83,7 @@
       </form>
     </div>
 
-    <div
+    <!-- <div
       id="add-modal"
       style="display: none"
       class="d-flex-center modal-overlay"
@@ -92,7 +94,6 @@
           <div class="d-flex-col mutation-form-field">
             <label for="food" class="mutation-label">Name</label>
             <input type="text" class="mutation-input" id="food" name="food" />
-            <!-- <p class="mutation-warning">No white space before and after the name</p> -->
           </div>
           <div class="d-flex-col mutation-form-field">
             <label for="price" class="mutation-label">Price</label>
@@ -126,56 +127,57 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
     <div
-      id="edit-modal"
+      id="mutation-modal"
       style="display: none"
       class="d-flex-center modal-overlay"
     >
       <div class="d-flex-col mutation-modal-body">
-        <h2 class="mutation-modal-content">Edit</h2>
-        <form id="edit-form" class="d-flex-col mutation-form">
-          <input type="hidden" id="edit-id" name="edit-id" />
+        <h2 id="mutation-title" class="mutation-modal-content">Edit</h2>
+        <form id="mutation-form" class="d-flex-col mutation-form">
+          <input type="hidden" id="food-id" name="food-id" />
+          <input type="hidden" id="created-at" name="created-at" />
           <div class="d-flex-col mutation-form-field">
-            <label for="edit-name" class="mutation-label">Name</label>
+            <label for="food" class="mutation-label">Name</label>
             <input
               type="text"
               class="mutation-input"
-              id="edit-name"
-              name="edit-name"
+              id="food"
+              name="food"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
-            <label for="edit-price" class="mutation-label">Price</label>
+            <label for="price" class="mutation-label">Price</label>
             <input
               type="number"
               step="any"
               class="mutation-input"
-              id="edit-price"
-              name="edit-price"
+              id="price"
+              name="price"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
-            <label for="edit-image" class="mutation-label">Image URL</label>
+            <label for="image" class="mutation-label">Image URL</label>
             <input
               type="text"
               class="mutation-input"
-              id="edit-image"
-              name="edit-image"
+              id="image"
+              name="image"
             />
           </div>
           <div class="d-flex-col mutation-form-field">
-            <label for="editquantity" class="mutation-label">Quantity</label>
+            <label for="quantity" class="mutation-label">Quantity</label>
             <input
               type="number"
               step="any"
               class="mutation-input half"
-              id="edit-quantity"
-              name="edit-quantity"
+              id="quantity"
+              name="quantity"
             />
           </div>
           <div class="d-flex mutation-modal-btn-wrapper">
-            <button id="close-edit-btn" type="button" class="modal-btn cancel">
+            <button id="close-mutation-btn" type="button" class="modal-btn cancel">
               Cancel
             </button>
             <button type="submit" class="modal-btn confirm">Save</button>

@@ -4,6 +4,7 @@ import {
   FOOD_IMG_WARNING_MSG,
   FOOD_QUANTITY_WARNING_MSG
 } from '../constants/food'
+import { DEFAULT_FORM_INDEX } from '../constants/form'
 
 /**
  * @function isValidName
@@ -151,19 +152,14 @@ const validateField = <T>(
  * Validate all fields of the input form. Return true if all fields are valid, otherwise return false.
  *
  * @param inputForm
- * @param initFieldIndex
  */
-export const validateForm = (
-  inputForm: HTMLFormElement,
-  initFieldIndex: number
-): boolean => {
+export const validateForm = (inputForm: HTMLFormElement): boolean => {
   const formData = new FormData(inputForm)
-  let valid = initFieldIndex
+  let valid = DEFAULT_FORM_INDEX
 
   for (const item of formData) {
     switch (item[0]) {
       case 'food':
-      case 'edit-name':
         valid += validateField(
           item[0],
           item[1] as string,
@@ -172,7 +168,6 @@ export const validateForm = (
         )
         break
       case 'price':
-      case 'edit-price':
         valid += validateField(
           item[0],
           Number(item[1]),
@@ -181,7 +176,6 @@ export const validateForm = (
         )
         break
       case 'image':
-      case 'edit-image':
         valid += validateField(
           item[0],
           item[1] as string,
@@ -190,7 +184,6 @@ export const validateForm = (
         )
         break
       case 'quantity':
-      case 'edit-quantity':
         valid += validateField(
           item[0],
           Number(item[1]),

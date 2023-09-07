@@ -1,4 +1,1 @@
-export enum FormIndex {
-  Add,
-  Edit
-}
+export const DEFAULT_FORM_INDEX = 2

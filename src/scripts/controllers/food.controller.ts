@@ -18,10 +18,9 @@ export class FoodController {
   ) {
     // this.onFoodListChanged(this.FoodModel.foods)
     this.FoodModel.bindFoodListChanged(this.onFoodListChanged)
-    this.foodView.bindAddFood(this.handleAddFood)
+    this.foodView.bindMutationFood(this.handleMutationFood)
     this.foodView.bindDeleteFood(this.handleDeleteFood)
     this.foodView.bindEditForm(this.handleGetFoodById)
-    this.foodView.bindEditFood(this.handleEditFood)
     this.foodView.bindSearchFood(this.handleGetFoodByName)
     this.foodView.displaySpinner()
     this.foodView.bindSortFood(this.handleSortFood)
@@ -32,13 +31,13 @@ export class FoodController {
     this.foodView.displayFoods(foods)
   }
 
-  handleAddFood = (
-    food: Omit<Food, 'id'>,
+  handleMutationFood = (
+    food: Food,
     callbackList: CallbackItem[] | undefined,
     callbackErrorList: CallbackItem[] | undefined
   ): void => {
     this.foodView.displayLoadingModal()
-    void this.FoodModel.addFood(food, callbackList, callbackErrorList)
+    void this.FoodModel.mutationFood(food, callbackList, callbackErrorList)
   }
 
   handleDeleteFood = (
@@ -60,7 +59,7 @@ export class FoodController {
   }
 
   handleEditFood = (
-    food: Food,
+    food: Omit<Food, 'createdAt'>,
     callbackList: CallbackItem[] | undefined,
     callbackErrorList: CallbackItem[] | undefined
   ): void => {

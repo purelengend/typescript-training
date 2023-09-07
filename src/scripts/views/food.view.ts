@@ -1,4 +1,4 @@
-import { EMPTY_MSG } from '../constants/food'
+import { DEFAULT_FOOD_ID_VALUE, EMPTY_MSG } from '../constants/food'
 import {
   TOAST_ADD_MSG,
   TOAST_DELETE_MSG,
@@ -17,7 +17,6 @@ import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
-import { FormIndex } from '../constants/form'
 import { productTemplate } from '../templates/product-card'
 import { hideElementById } from '../helpers/dom-element-ui'
 
@@ -31,16 +30,15 @@ export class FoodView {
   public foodList: HTMLElement
   public addCard: HTMLElement
   public expand: HTMLElement
-  public addModal: HTMLElement
-  public closeAddBtn: HTMLElement
-  public addForm: HTMLFormElement
+  public mutationModal: HTMLElement
+  public mutationModalTitle: HTMLElement
+  public closeMutationBtn: HTMLElement
+  public mutationForm: HTMLFormElement
   public spin: HTMLElement
   public deleteModal: HTMLElement
   public deleteForm: HTMLFormElement
   public closeDeleteBtn: HTMLElement
   public editModal: HTMLElement
-  public closeEditBtn: HTMLElement
-  public editForm: HTMLFormElement
   public searchInput: HTMLInputElement
   public sort: HTMLSelectElement
   public loadingModal: HTMLElement
@@ -50,43 +48,43 @@ export class FoodView {
     this.foodList = this.getElement('#food-list')
     this.addCard = this.getElement('#add-card')
     this.expand = this.getElement('#expand')
-    this.addModal = this.getElement('#add-modal')
-    this.closeAddBtn = this.getElement('#close-add-btn')
-    this.addForm = this.getElement('#add-form') as HTMLFormElement
+    this.mutationModal = this.getElement('#mutation-modal')
+    this.mutationModalTitle = this.getElement('#mutation-title')
+    this.closeMutationBtn = this.getElement('#close-mutation-btn')
+    // this.addForm = this.getElement('#add-form') as HTMLFormElement
     this.spin = this.getElement('#spin')
     this.deleteModal = this.getElement('#delete-modal')
     this.deleteForm = this.getElement('#delete-form') as HTMLFormElement
     this.closeDeleteBtn = this.getElement('#close-delete-btn')
-    this.editModal = this.getElement('#edit-modal')
-    this.closeEditBtn = this.getElement('#close-edit-btn')
-    this.editForm = this.getElement('#edit-form') as HTMLFormElement
+    this.editModal = this.getElement('#mutation-modal')
     this.searchInput = this.getElement('#search') as HTMLInputElement
     this.sort = this.getElement('#sort') as HTMLSelectElement
     this.loadingModal = this.getElement('#loading-modal')
     this.header = this.getElement('#header')
+    this.mutationForm = this.getElement('#mutation-form') as HTMLFormElement
 
     this._initEventListener()
   }
 
   _initEventListener = (): void => {
     this.addCard.addEventListener('click', () => {
-      this.addModal.style.display = 'inline-flex'
+      this.mutationModalTitle.textContent = 'Create a new food'
+      this.mutationModal.style.display = 'inline-flex'
     })
 
-    this.closeAddBtn.addEventListener('click', () => {
-      this.addModal.style.display = 'none'
+    // this.mutationForm.addEventListener('submit', () => {
+    //   this.mutationModal.style.display = 'none'
+    //   clearErrorMessages()
+    //   resetForm('mutation-form')
+    // })
+
+    this.closeMutationBtn.addEventListener('click', () => {
+      this.mutationModal.style.display = 'none'
       clearErrorMessages()
-      resetForm('add-form')
+      resetForm('mutation-form')
     })
-
     this.closeDeleteBtn.addEventListener('click', () => {
       this.deleteModal.style.display = 'none'
-    })
-
-    this.closeEditBtn.addEventListener('click', () => {
-      this.editModal.style.display = 'none'
-      clearErrorMessages()
-      resetForm('edit-form')
     })
 
     this.header.addEventListener('click', e => {
@@ -137,22 +135,38 @@ export class FoodView {
     this.spin.style.display = 'none'
   }
 
-  bindAddFood = (
+  bindMutationFood = (
     handler: (
-      input: Omit<Food, 'id'>,
+      input: Food,
       callbackList?: CallbackItem[],
       callbackErrorList?: CallbackItem[]
     ) => void
   ): void => {
-    this.addForm.addEventListener('submit', function (e) {
+    this.mutationForm.addEventListener('submit', function (e) {
       e.preventDefault()
-      const food: Omit<Food, 'id'> = {
-        name: this.food.value,
-        price: Number(this.price.value),
-        imageUrl: this.image.value,
-        quantity: Number(this.quantity.value)
+      let food: Food
+      let mutationPopupMessage: string
+      if (this['food-id'].value === DEFAULT_FOOD_ID_VALUE) {
+        food = {
+          id: DEFAULT_FOOD_ID_VALUE,
+          name: this.food.value,
+          price: Number(this.price.value),
+          imageUrl: this.image.value,
+          quantity: Number(this.quantity.value),
+          createdAt: new Date()
+        }
+        mutationPopupMessage = TOAST_ADD_MSG
+      } else {
+        food = {
+          id: this['food-id'].value,
+          name: this.food.value,
+          price: Number(this.price.value),
+          imageUrl: this.image.value,
+          quantity: Number(this.quantity.value),
+          createdAt: new Date(this['created-at'].value)
+        }
+        mutationPopupMessage = TOAST_EDIT_MSG
       }
-
       const callbackList: CallbackItem[] = [
         {
           callback: hideElementById,
@@ -160,15 +174,15 @@ export class FoodView {
         },
         {
           callback: hideElementById,
-          argument: ['add-modal']
+          argument: ['mutation-modal']
         },
         {
           callback: resetForm,
-          argument: ['add-form']
+          argument: ['mutation-form']
         },
         {
           callback: showToast,
-          argument: [TOAST_ADD_MSG, 2500, Toast.Success]
+          argument: [mutationPopupMessage, 2500, Toast.Success]
         }
       ]
 
@@ -179,19 +193,56 @@ export class FoodView {
         },
         {
           callback: hideElementById,
-          argument: ['add-modal']
+          argument: ['mutation-modal']
         },
         {
           callback: resetForm,
-          argument: ['add-form']
+          argument: ['mutation-form']
         },
         {
           callback: showToast,
           argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
         }
       ]
-      if (validateForm(this, FormIndex.Add)) {
+      if (validateForm(this)) {
         handler(food, callbackList, callbackErrorList)
+      }
+    })
+  }
+
+  bindEditForm = (
+    handler: (
+      input: string,
+      callbackList?: CallbackItem[],
+      callbackErrorList?: CallbackItem[]
+    ) => void
+  ): void => {
+    this.foodList.addEventListener('click', function (e) {
+      const target = e.target as HTMLElement
+      if (target.className.includes('mutation')) {
+        if (target.dataset.id !== undefined) {
+          const callbackList: CallbackItem[] = [
+            {
+              callback: hideElementById,
+              argument: ['loading-modal']
+            },
+            {
+              callback: openEditModalForm,
+              argument: ['mutation-modal', 'mutation-form']
+            }
+          ]
+          const callbackErrorList: CallbackItem[] = [
+            {
+              callback: hideElementById,
+              argument: ['loading-modal']
+            },
+            {
+              callback: showToast,
+              argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
+            }
+          ]
+          handler(target.dataset.id, callbackList, callbackErrorList)
+        }
       }
     })
   }
@@ -244,93 +295,6 @@ export class FoodView {
         }
       ]
       handler(this['hidden-delete-id'].value, callbackList, callbackErrorList)
-    })
-  }
-
-  bindEditForm = (
-    handler: (
-      input: string,
-      callbackList?: CallbackItem[],
-      callbackErrorList?: CallbackItem[]
-    ) => void
-  ): void => {
-    this.foodList.addEventListener('click', function (e) {
-      const target = e.target as HTMLElement
-      if (target.className.includes('mutation')) {
-        if (target.dataset.id !== undefined) {
-          const callbackList: CallbackItem[] = [
-            {
-              callback: hideElementById,
-              argument: ['loading-modal']
-            },
-            {
-              callback: openEditModalForm,
-              argument: ['edit-modal', 'edit-form']
-            }
-          ]
-          const callbackErrorList: CallbackItem[] = [
-            {
-              callback: hideElementById,
-              argument: ['loading-modal']
-            },
-            {
-              callback: showToast,
-              argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
-            }
-          ]
-          handler(target.dataset.id, callbackList, callbackErrorList)
-        }
-      }
-    })
-  }
-
-  bindEditFood = (
-    handler: (
-      input: Food,
-      callbackList?: CallbackItem[],
-      callbackErrorList?: CallbackItem[]
-    ) => void
-  ): void => {
-    this.editForm.addEventListener('submit', function (e) {
-      e.preventDefault()
-      const editFood: Food = {
-        id: this['edit-id'].value,
-        name: this['edit-name'].value,
-        price: Number(this['edit-price'].value),
-        imageUrl: this['edit-image'].value,
-        quantity: Number(this['edit-quantity'].value)
-      }
-      const callbackList: CallbackItem[] = [
-        {
-          callback: hideElementById,
-          argument: ['loading-modal']
-        },
-        {
-          callback: hideElementById,
-          argument: ['edit-modal']
-        },
-        {
-          callback: showToast,
-          argument: [TOAST_EDIT_MSG, 2500, Toast.Success]
-        }
-      ]
-      const callbackErrorList: CallbackItem[] = [
-        {
-          callback: hideElementById,
-          argument: ['loading-modal']
-        },
-        {
-          callback: hideElementById,
-          argument: ['edit-modal']
-        },
-        {
-          callback: showToast,
-          argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
-        }
-      ]
-      if (validateForm(this, FormIndex.Edit)) {
-        handler(editFood, callbackList, callbackErrorList)
-      }
     })
   }
 

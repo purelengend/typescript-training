@@ -12,6 +12,7 @@ import {
   requestWithBody,
   invokeCallback
 } from '../services/common.service'
+import { DEFAULT_FOOD_ID_VALUE } from '../constants/food'
 
 /**
  * @class FoodModel
@@ -135,6 +136,25 @@ export class FoodModel {
     }
   }
 
+  async mutationFood(
+    food: Food,
+    callbackList: CallbackItem[] | undefined,
+    callbackErrorList: CallbackItem[] | undefined
+  ): Promise<void> {
+    if (food.id === DEFAULT_FOOD_ID_VALUE) {
+      const addFoodDTO: Omit<Food, 'id'> = {
+        name: food.name,
+        price: food.price,
+        imageUrl: food.imageUrl,
+        quantity: food.quantity,
+        createdAt: food.createdAt
+      }
+      await this.addFood(addFoodDTO, callbackList, callbackErrorList)
+    } else {
+      await this.editFood(food, callbackList, callbackErrorList)
+    }
+  }
+
   async addFood(
     food: Omit<Food, 'id'>,
     callbackList: CallbackItem[] | undefined,
@@ -157,12 +177,16 @@ export class FoodModel {
   }
 
   async editFood(
-    food: Food,
+    food: Omit<Food, 'createdAt'>,
     callbackList: CallbackItem[] | undefined,
     callbackErrorList: CallbackItem[] | undefined
   ): Promise<void> {
     try {
-      const updatedFood = await requestWithBody<Food>('PUT', food, `${food.id}`)
+      const updatedFood = await requestWithBody<Omit<Food, 'createdAt'>>(
+        'PUT',
+        food,
+        `${food.id}`
+      )
       if (updatedFood !== undefined) {
         const updatedFoodlist = [...this.foods]
         const updatedFoodIndex = updatedFoodlist.findIndex(
