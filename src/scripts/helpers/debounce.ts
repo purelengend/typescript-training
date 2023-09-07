@@ -1,3 +1,11 @@
+/**
+ * @function debounce
+ *
+ * Delay an input function with input milliseconds.
+ *
+ * @param fn
+ * @param ms
+ */
 export const debounce = (fn: () => void, ms = 1500): (() => void) => {
   let timeoutId: ReturnType<typeof setTimeout>
   return function (this: any, ...args: []): void {
@@ -7,16 +15,3 @@ export const debounce = (fn: () => void, ms = 1500): (() => void) => {
     }, ms)
   }
 }
-
-// export const debounce = <F extends (...args: Parameters<F>) => ReturnType<F>>(
-//   fn: F,
-//   delay: number = 1500
-// ): (() => void) => {
-//   let timeout: ReturnType<typeof setTimeout>
-//   return function (this: any, ...args: Parameters<F>) {
-//     clearTimeout(timeout)
-//     timeout = setTimeout(() => {
-//       fn.apply(this, args)
-//     }, delay)
-//   }
-// }

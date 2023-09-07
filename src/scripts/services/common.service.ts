@@ -1,13 +1,13 @@
 import { BASE_URL, RESOURCE } from '../constants/api'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
+
 /**
- * @function request
+ * Makes an HTTP request to the API with the specified HTTP method and path.
  *
- * Make request with input method and input query path to the server.
- *
- * @param method
- * @param path - optional
+ * @param {string} method - The HTTP method (e.g., 'GET', 'POST', 'PUT', 'DELETE').
+ * @param {string | undefined} path - The API endpoint path (optional).
+ * @returns {Promise<TResponse | undefined>} - A promise that resolves with the response data or undefined on error.
  */
 export async function request<TResponse>(
   method: string,
@@ -25,13 +25,12 @@ export async function request<TResponse>(
 }
 
 /**
- * @function requestWithBody
+ * Makes an HTTP request with a JSON body to the API.
  *
- * Make a request with input method, input query path and input data of the body to the server.
- *
- * @param method
- * @param data - optional
- * @param path - optional
+ * @param {string} method - The HTTP method (e.g., 'POST', 'PUT').
+ * @param {any | undefined} data - The data to send in the request body (optional).
+ * @param {string | undefined} path - The API endpoint path (optional).
+ * @returns {Promise<TResponse | undefined>} - A promise that resolves with the response data or undefined on error.
  */
 export async function requestWithBody<TResponse>(
   method: string,
@@ -50,6 +49,12 @@ export async function requestWithBody<TResponse>(
   else throw new Error()
 }
 
+/**
+ * Invokes a list of callback functions with optional arguments.
+ *
+ * @param {CallbackItem[] | undefined} callbackList - An array of callback items to invoke (optional).
+ * @param {Food | undefined} optionalArgument - An optional argument to pass to the callbacks (optional).
+ */
 export function invokeCallback(
   callbackList: CallbackItem[] | undefined,
   optionalArgument?: Food

@@ -200,6 +200,12 @@ export const validateForm = (inputForm: HTMLFormElement): boolean => {
   return valid === totalInputAmount
 }
 
+/**
+ * @function clearErrorMessages
+ *
+ * Clear all the error messages DOM elements
+ *
+ */
 export const clearErrorMessages = (): void => {
   const errorMessages = document.querySelectorAll('.mutation-warning')
   errorMessages.forEach(message => {
