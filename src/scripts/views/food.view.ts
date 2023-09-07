@@ -19,6 +19,7 @@ import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
 import { productTemplate } from '../templates/product-card'
 import { hideElementById } from '../helpers/dom-element-ui'
+import { debounce } from '../helpers/debounce'
 
 /**
  * @class FoodView
@@ -38,7 +39,6 @@ export class FoodView {
   public deleteModal: HTMLElement
   public deleteForm: HTMLFormElement
   public closeDeleteBtn: HTMLElement
-  public editModal: HTMLElement
   public searchInput: HTMLInputElement
   public sort: HTMLSelectElement
   public loadingModal: HTMLElement
@@ -51,12 +51,10 @@ export class FoodView {
     this.mutationModal = this.getElement('#mutation-modal')
     this.mutationModalTitle = this.getElement('#mutation-title')
     this.closeMutationBtn = this.getElement('#close-mutation-btn')
-    // this.addForm = this.getElement('#add-form') as HTMLFormElement
     this.spin = this.getElement('#spin')
     this.deleteModal = this.getElement('#delete-modal')
     this.deleteForm = this.getElement('#delete-form') as HTMLFormElement
     this.closeDeleteBtn = this.getElement('#close-delete-btn')
-    this.editModal = this.getElement('#mutation-modal')
     this.searchInput = this.getElement('#search') as HTMLInputElement
     this.sort = this.getElement('#sort') as HTMLSelectElement
     this.loadingModal = this.getElement('#loading-modal')
@@ -71,12 +69,6 @@ export class FoodView {
       this.mutationModalTitle.textContent = 'Create a new food'
       this.mutationModal.style.display = 'inline-flex'
     })
-
-    // this.mutationForm.addEventListener('submit', () => {
-    //   this.mutationModal.style.display = 'none'
-    //   clearErrorMessages()
-    //   resetForm('mutation-form')
-    // })
 
     this.closeMutationBtn.addEventListener('click', () => {
       this.mutationModal.style.display = 'none'
@@ -305,9 +297,9 @@ export class FoodView {
       callbackErrorList?: CallbackItem[]
     ) => void
   ): void => {
-    this.searchInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault()
+    this.searchInput.addEventListener(
+      'keydown',
+      debounce(() => {
         const callbackList: CallbackItem[] = [
           {
             callback: hideElementById,
@@ -324,9 +316,13 @@ export class FoodView {
             argument: [TOAST_ERROR_MSG, 2500, Toast.Error]
           }
         ]
-        handler(`name=${this.value}`, callbackList, callbackErrorList)
-      }
-    })
+        handler(
+          `name=${this.searchInput.value}`,
+          callbackList,
+          callbackErrorList
+        )
+      })
+    )
   }
 
   bindSortFood = (
