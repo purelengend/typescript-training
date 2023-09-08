@@ -1,23 +1,23 @@
 /**
- * @function hideElementById
+ * @function hideElement
  *
  * Hide the element with input id selector.
  *
  * @param selector
  */
-export const hideElementById = (selector: string): void => {
-  const element = document.getElementById(selector)
+export const hideElement = (selector: string): void => {
+  const element = document.querySelector(selector) as HTMLElement
   if (element !== null) element.style.display = 'none'
 }
 
 /**
- * @function showElementById
+ * @function showElement
  *
  * Show the element with input id selector.
  *
  * @param selector
  */
-export const showElementById = (selector: string): void => {
-  const element = document.getElementById(selector)
+export const showElement = (selector: string): void => {
+  const element = document.querySelector(selector) as HTMLElement
   if (element !== null) element.style.display = 'inline-flex'
 }

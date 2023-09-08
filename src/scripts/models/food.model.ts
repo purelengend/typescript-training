@@ -4,7 +4,7 @@ import {
   DEFAULT_LIMITATION,
   DEFAULT_PAGINATION
 } from '../constants/filter'
-import { hideElementById, showElementById } from '../helpers/dom-element-ui'
+import { hideElement, showElement } from '../helpers/dom-element-ui'
 import { type CallbackItem } from '../types/callback.type'
 import { type Food } from '../types/food.type'
 import {
@@ -55,9 +55,9 @@ export class FoodModel {
     this.onFoodListChanged(this.foods)
 
     if (foods.length < DEFAULT_LIMITATION) {
-      hideElementById('expand')
+      hideElement('#expand')
     } else {
-      showElementById('expand')
+      showElement('#expand')
     }
   }
 
@@ -179,7 +179,7 @@ export class FoodModel {
         const updatedFoodlist = [...this.foods, ...expandedFoodList]
         this._commitAndCheckExpand(updatedFoodlist)
         if (expandedFoodList.length < DEFAULT_LIMITATION) {
-          hideElementById('expand')
+          hideElement('#expand')
         }
         invokeCallback(callbackList)
       }

@@ -18,7 +18,7 @@ import { type Food } from '../types/food.type'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import crossIcon from '../../assets/icons/cross-icon.svg'
 import { productTemplate } from '../templates/product-card'
-import { hideElementById } from '../helpers/dom-element-ui'
+import { hideElement } from '../helpers/dom-element-ui'
 import { debounce } from '../helpers/debounce'
 
 /**
@@ -44,7 +44,11 @@ export class FoodView {
   public loadingModal: HTMLElement
   public header: HTMLElement
 
+  /**
+   * Creates an instance of FoodView.
+   */
   constructor() {
+    // Initialize elements
     this.foodList = this.getElement('#food-list')
     this.addCard = this.getElement('#add-card')
     this.expand = this.getElement('#expand')
@@ -64,6 +68,11 @@ export class FoodView {
     this._initEventListener()
   }
 
+  /**
+   * Initializes event listeners for UI interactions.
+   *
+   * @private
+   */
   _initEventListener = (): void => {
     this.addCard.addEventListener('click', () => {
       this.mutationModalTitle.textContent = 'Create a new food'
@@ -85,24 +94,43 @@ export class FoodView {
     })
   }
 
-  // Retrieve an element from the DOM
+  /**
+   * Retrieves an element from the DOM based on a selector.
+   *
+   * @param {string} selector - The CSS selector to match elements.
+   * @returns {HTMLElement} - The DOM element matching the selector.
+   */
   getElement(selector: string): HTMLElement {
     const element = document.querySelector(selector)
     return element as HTMLElement
   }
 
+  /**
+   * Displays a spinner element to indicate loading.
+   */
   displaySpinner(): void {
     this.spin.style.display = 'block'
   }
 
+  /**
+   * Displays a loading modal to indicate a long-running operation.
+   */
   displayLoadingModal(): void {
     this.loadingModal.style.display = 'inline-flex'
   }
 
+  /**
+   * Hides the loading modal.
+   */
   hideLoadingModal(): void {
     this.loadingModal.style.display = 'none'
   }
 
+  /**
+   * Displays a list of food items.
+   *
+   * @param {Food[]} foods - An array of food items to display.
+   */
   displayFoods = (foods: Food[]): void => {
     if (this.foodList.lastElementChild !== null) {
       while (this.foodList.lastElementChild.id !== 'add-card') {
@@ -127,6 +155,11 @@ export class FoodView {
     this.spin.style.display = 'none'
   }
 
+  /**
+   * Binds a handler function to the mutation form submission event.
+   *
+   * @param {Function} handler - The handler function to call on form submission.
+   */
   bindMutationFood = (
     handler: (
       input: Food,
@@ -161,16 +194,16 @@ export class FoodView {
       }
       const callbackList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
-          callback: hideElementById,
-          argument: ['mutation-modal']
+          callback: hideElement,
+          argument: ['#mutation-modal']
         },
         {
           callback: resetForm,
-          argument: ['mutation-form']
+          argument: ['#mutation-form']
         },
         {
           callback: showToast,
@@ -180,16 +213,16 @@ export class FoodView {
 
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
-          callback: hideElementById,
-          argument: ['mutation-modal']
+          callback: hideElement,
+          argument: ['#mutation-modal']
         },
         {
           callback: resetForm,
-          argument: ['mutation-form']
+          argument: ['#mutation-form']
         },
         {
           callback: showToast,
@@ -202,6 +235,11 @@ export class FoodView {
     })
   }
 
+  /**
+   * Binds a handler function to the edit form submission event.
+   *
+   * @param {Function} handler - The handler function to call on form submission.
+   */
   bindEditForm = (
     handler: (
       input: string,
@@ -215,18 +253,18 @@ export class FoodView {
         if (target.dataset.id !== undefined) {
           const callbackList: CallbackItem[] = [
             {
-              callback: hideElementById,
-              argument: ['loading-modal']
+              callback: hideElement,
+              argument: ['#loading-modal']
             },
             {
               callback: openEditModalForm,
-              argument: ['mutation-modal', 'mutation-form']
+              argument: ['#mutation-modal', '#mutation-form']
             }
           ]
           const callbackErrorList: CallbackItem[] = [
             {
-              callback: hideElementById,
-              argument: ['loading-modal']
+              callback: hideElement,
+              argument: ['#loading-modal']
             },
             {
               callback: showToast,
@@ -239,6 +277,11 @@ export class FoodView {
     })
   }
 
+  /**
+   * Binds a handler function to the delete form submission event.
+   *
+   * @param {Function} handler - The handler function to call on form submission.
+   */
   bindDeleteFood = (
     handler: (
       input: string,
@@ -260,12 +303,12 @@ export class FoodView {
       e.preventDefault()
       const callbackList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
-          callback: hideElementById,
-          argument: ['delete-modal']
+          callback: hideElement,
+          argument: ['#delete-modal']
         },
         {
           callback: showToast,
@@ -274,12 +317,12 @@ export class FoodView {
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
-          callback: hideElementById,
-          argument: ['delete-modal']
+          callback: hideElement,
+          argument: ['#delete-modal']
         },
         {
           callback: showToast,
@@ -290,6 +333,11 @@ export class FoodView {
     })
   }
 
+  /**
+   * Binds a handler function to the search input's keydown event.
+   *
+   * @param {Function} handler - The handler function to call on keydown.
+   */
   bindSearchFood = (
     handler: (
       input: string,
@@ -302,13 +350,13 @@ export class FoodView {
       debounce(() => {
         const callbackList: CallbackItem[] = [
           {
-            callback: hideElementById,
+            callback: hideElement,
             argument: ['loading-modal']
           }
         ]
         const callbackErrorList: CallbackItem[] = [
           {
-            callback: hideElementById,
+            callback: hideElement,
             argument: ['loading-modal']
           },
           {
@@ -325,6 +373,11 @@ export class FoodView {
     )
   }
 
+  /**
+   * Binds a handler function to the sort select element's change event.
+   *
+   * @param {Function} handler - The handler function to call on change.
+   */
   bindSortFood = (
     handler: (
       input: string,
@@ -335,14 +388,14 @@ export class FoodView {
     this.sort.addEventListener('change', function () {
       const callbackList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         }
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
           callback: showToast,
@@ -353,6 +406,11 @@ export class FoodView {
     })
   }
 
+  /**
+   * Binds a handler function to the expand button's click event.
+   *
+   * @param {Function} handler - The handler function to call on click.
+   */
   bindExpandFood = (
     handler: (
       callbackList?: CallbackItem[],
@@ -362,14 +420,14 @@ export class FoodView {
     this.expand.addEventListener('click', function () {
       const callbackList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         }
       ]
       const callbackErrorList: CallbackItem[] = [
         {
-          callback: hideElementById,
-          argument: ['loading-modal']
+          callback: hideElement,
+          argument: ['#loading-modal']
         },
         {
           callback: showToast,

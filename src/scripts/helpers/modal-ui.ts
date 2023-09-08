@@ -48,8 +48,8 @@ export const openEditModalForm = (
   formSelector: string,
   data: Food
 ): void => {
-  const modal = document.getElementById(modalSelector) as HTMLElement
-  const form = document.getElementById(formSelector) as HTMLFormElement
+  const modal = document.querySelector(modalSelector) as HTMLElement
+  const form = document.querySelector(formSelector) as HTMLFormElement
   modal.style.display = 'inline-flex'
   form['food-id'].value = data.id
   form.food.value = data.name
