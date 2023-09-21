@@ -30,7 +30,7 @@ export const openDeleteModal = (
  * @param selector
  */
 export const resetForm = (formSelector: string): void => {
-  const form = document.getElementById(formSelector) as HTMLFormElement
+  const form = document.querySelector(formSelector) as HTMLFormElement
   form.reset()
 }
 

@@ -82,7 +82,7 @@ export class FoodView {
     this.closeMutationBtn.addEventListener('click', () => {
       this.mutationModal.style.display = 'none'
       clearErrorMessages()
-      resetForm('mutation-form')
+      resetForm('#mutation-form')
     })
     this.closeDeleteBtn.addEventListener('click', () => {
       this.deleteModal.style.display = 'none'
@@ -351,13 +351,13 @@ export class FoodView {
         const callbackList: CallbackItem[] = [
           {
             callback: hideElement,
-            argument: ['loading-modal']
+            argument: ['#loading-modal']
           }
         ]
         const callbackErrorList: CallbackItem[] = [
           {
             callback: hideElement,
-            argument: ['loading-modal']
+            argument: ['#loading-modal']
           },
           {
             callback: showToast,
